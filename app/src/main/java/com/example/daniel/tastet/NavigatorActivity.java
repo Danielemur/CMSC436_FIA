@@ -5,11 +5,36 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 public class NavigatorActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.appbar_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //TODO
+        //add the two options addlocation and addreview
+        switch(item.getItemId()){
+            case R.id.add_location:
+                //open new location activity
+                break;
+            case R.id.add_review:
+                //open new review activity
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +46,10 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
 
         //initialize to home when just starting up
         loadFragment(new HomeFragment());
+
+        //initialize toolbar called appbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
 
     }
     private boolean loadFragment(Fragment fragment){

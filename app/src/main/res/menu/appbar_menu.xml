@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/add_location"
+    android:title="@string/add_location_menu">
+</item>
+    <item
+        android:id="@+id/add_review"
+        android:title="@string/add_review_menu">
+    </item>
+</menu>
