@@ -6,6 +6,23 @@
     <string name="title_settings">Settings</string>
     <string name="add_location_menu">Add Location</string>
     <string name="add_review_menu">Add Review</string>
+
+    <string name="add_store_title">Add Location</string>
+    <string name="add_store_name">Location Name</string>
+    <string name="add_store_name_entry">Enter Name</string>
+    <string name="add_store_address">Location Address</string>
+    <string name="add_store_address_entry">Enter Address</string>
+    <string name="add_store_type">Location Type</string>
+
+    <string-array name="location_types">
+        <item>Grocery Store</item>
+        <item>Convenience Store</item>
+        <item>Restaurant</item>
+        <item>Fast Food</item>
+        <item>Farmer\'s Market</item>
+        <item>Other</item>
+    </string-array>
+
     <string name="cancel">Cancel</string>
     <string name="submit">Submit</string>
 </resources>

@@ -25,7 +25,7 @@ import java.util.UUID;
 
 public class NavigatorActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-    private static final String TAG = "TasteT";
+    public static final String TAG = "TasteT";
     private static final int ADD_STORE_REQUEST = 0;
 
 
@@ -88,6 +88,13 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
     @Override	
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i(TAG, "Entered onActivityResult()");
+        if (resultCode == RESULT_OK && requestCode == ADD_STORE_REQUEST) {
+            String locationName = data.getStringExtra(AddStoreActivity.LOCATION_NAME);
+            String locationAddress = data.getStringExtra(AddStoreActivity.LOCATION_ADDRESS);
+            String locationType = data.getStringExtra(AddStoreActivity.LOCATION_TYPE);
+            Log.i(TAG, "Name: " + locationName + "\nAddress: " + locationAddress + "\nType: " + locationType);
+
+
                 String idOne = UUID.randomUUID().toString();
                 DatabaseReference myRef = database.getReference(idOne);
                 HashMap<String, Object> result = new HashMap<>();
@@ -96,7 +103,8 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                 result.put("Store Type", "Convenience Store");
 
                 myRef.setValue(result);
-
+	    
+        }
     }
 
     private boolean loadFragment(){
