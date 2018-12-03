@@ -24,6 +24,7 @@ public class AddStoreActivity extends Activity {
         this.setContentView(R.layout.add_store_activity);
 
 
+    }
 
     public void cancel(View v) {
         finish();
