@@ -42,6 +42,8 @@
         </activity>
         <activity android:name=".AddStoreActivity" >
         </activity>
+        <activity android:name=".AddReviewActivity" >
+        </activity>
     </application>
 
 </manifest>

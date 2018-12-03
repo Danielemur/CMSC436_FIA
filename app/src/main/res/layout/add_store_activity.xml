@@ -64,9 +64,8 @@
         android:layout_below="@+id/add_store_address"
         android:ems="10"
         android:hint="@string/add_store_address_entry"
-        android:inputType="textShortMessage" >
-
-        <requestFocus />
+        android:inputType="textShortMessage"
+        android:completionThreshold="5" >
     </AutoCompleteTextView>
 
     <!-- Location Type -->
