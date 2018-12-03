@@ -8,18 +8,18 @@
         android:title="Notification" />
 
     <EditTextPreference
+        android:defaultValue="Current Location"
         android:dialogTitle="Default Location"
         android:key="default_location_key"
-        android:summary="Defaults to your location of downloading"
+        android:summary="Choose default location (defaults to current location or College Park, MD if permisions not enabled)"
         android:title="Default Location" />
 
     <ListPreference
-        android:defaultValue="1"
+        android:defaultValue="15"
         android:dialogTitle="Default Zoom"
         android:entries="@array/zoom_list_preference"
         android:entryValues="@array/zoom_values_list_preference"
         android:key="default_zoom_key"
         android:summary="Default level of zoom when the map loads"
-        android:title="Default Location" />
-
+        android:title="Default Zoom" />
 </PreferenceScreen>
