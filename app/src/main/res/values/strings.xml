@@ -23,6 +23,18 @@
         <item>Other</item>
     </string-array>
 
+    <string name="add_review_title">Add Review for </string>
+    <string name="add_review_name">Review Title</string>
+    <string name="add_review_name_entry">Enter a title for this post</string>
+    <string name="add_review_user">Reviewer Name</string>
+    <string name="add_review_user_entry">Enter your name (optional)</string>
+    <string name="add_review_rating_overall">Overall</string>
+    <string name="add_review_rating_freshness">Freshness</string>
+    <string name="add_review_rating_taste">Taste</string>
+    <string name="add_review_rating_price">Price</string>
+    <string name="add_review_text">Comments</string>
+    <string name="add_review_text_entry">Enter any specific comments (optional)</string>
+
     <string name="cancel">Cancel</string>
     <string name="submit">Submit</string>
 

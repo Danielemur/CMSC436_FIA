@@ -78,6 +78,9 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                 //open new location activity
                 break;
             case R.id.add_review:
+                Intent addReview = new Intent(this, AddReviewActivity.class);
+                this.startActivityForResult(addReview, ADD_REVIEW_REQUEST);
+                //open new location activity
                 break;
         }
         return super.onOptionsItemSelected(item);
