@@ -1,155 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent" >
-
-	<!-- Title -->
+	android:layout_height="match_parent"
+	android:theme="@style/LightTheme" >
 
 	<TextView
-		android:id="@+id/TitleLabel"
+		android:id="@+id/add_store_title"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="8dp"
-		android:text="@string/title_home"
-		android:textAppearance="?android:attr/textAppearanceLarge" >
+		android:layout_marginBottom="8dp"
+		android:text="@string/add_store_title"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:textStyle="bold" >
+	</TextView>
+
+	<!-- Location Name -->
+
+	<TextView
+		android:id="@+id/add_store_name"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_below="@+id/add_store_title"
+		android:layout_marginTop="8dp"
+		android:text="@string/add_store_name"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:textStyle="bold" >
 	</TextView>
 
 	<EditText
-		android:id="@+id/title"
+		android:id="@+id/add_store_name_entry"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_alignParentLeft="true"
-		android:layout_below="@+id/TitleLabel"
+		android:layout_below="@+id/add_store_name"
 		android:ems="10"
-		android:hint="@string/title_home"
+		android:hint="@string/add_store_name_entry"
 		android:inputType="textShortMessage" >
 
 		<requestFocus />
 	</EditText>
 
-	<!-- Status -->
+	<!-- Location Address -->
 
 	<TextView
-		android:id="@+id/status"
+		android:id="@+id/add_store_address"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
 		android:layout_alignParentLeft="true"
-		android:layout_below="@+id/title"
+		android:layout_below="@+id/add_store_name_entry"
+		android:layout_height="wrap_content"
 		android:layout_marginTop="8dp"
-		android:text="@string/title_home"
-		android:textAppearance="?android:attr/textAppearanceLarge" />
+		android:text="@string/add_store_address"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:textStyle="bold">
+	</TextView>
 
-	<RadioGroup
-		android:id="@+id/statusGroup"
+	<AutoCompleteTextViewText
+		android:id="@+id/add_store_address_entry"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_alignParentLeft="true"
-		android:layout_below="@id/status"
-		android:orientation="horizontal" >
+		android:layout_below="@+id/add_store_address"
+		android:ems="10"
+		android:hint="@string/add_store_address_entry"
+		android:inputType="textShortMessage"
+		android:on >
 
-		<RadioButton
-			android:id="@+id/statusDone"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/title_home" />
+		<requestFocus />
+	</AutoCompleteTextViewText>
 
-		<RadioButton
-			android:id="@+id/statusNotDone"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:checked="true"
-			android:text="@string/title_home" />
-	</RadioGroup>
-
-	<!-- Priority -->
+	<!-- Location Type -->
 
 	<TextView
-		android:id="@+id/priority"
+		android:id="@+id/add_store_type"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_alignParentLeft="true"
-		android:layout_below="@id/statusGroup"
+		android:layout_below="@id/add_store_address_entry"
 		android:layout_marginTop="8dp"
-		android:text="@string/title_home"
-		android:textAppearance="?android:attr/textAppearanceLarge" />
+		android:text="@string/add_store_type"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:textStyle="bold" />
 
-	<RadioGroup
-		android:id="@+id/priorityGroup"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_below="@id/priority"
-		android:orientation="horizontal"
-		android:text="@string/title_home" >
-
-		<RadioButton
-			android:id="@+id/lowPriority"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/title_home" />
-
-		<RadioButton
-			android:id="@+id/medPriority"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:checked="true"
-			android:text="@string/title_home" />
-
-		<RadioButton
-			android:id="@+id/highPriority"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/title_home" />
-	</RadioGroup>
-
-	<!-- Time and Date -->
-
-	<TextView
-		android:id="@+id/time_and_date"
+	<Spinner
+		android:id="@+id/add_store_type_entry"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_alignParentLeft="true"
-		android:layout_below="@id/priorityGroup"
-		android:layout_marginTop="8dp"
-		android:text="@string/title_home"
-		android:textAppearance="?android:attr/textAppearanceLarge" />
-
-	<TextView
-		android:id="@+id/date"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_below="@+id/time_and_date"
-		android:layout_marginTop="8dp"
-		android:text="@string/title_home" />
-
-	<TextView
-		android:id="@+id/time"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_below="@+id/time_and_date"
-		android:layout_marginTop="8dp"
-		android:text="@string/title_home" />
-
-	<Button
-		android:id="@+id/date_picker_button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_marginTop="8dp"
-		android:layout_below="@id/date"
-		android:text="@string/title_home" />
-
-	<Button
-		android:id="@+id/time_picker_button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_alignTop="@id/date_picker_button"
-		android:layout_below="@id/time"
-		android:layout_marginTop="8dp"
-		android:text="@string/title_home" />
+		android:layout_below="@id/add_store_type"
+		android:entries="@array/location_types"
+		/>
 
 	<!-- Buttons -->
 
@@ -159,15 +100,8 @@
 		android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true"
 		android:layout_alignParentLeft="true"
-		android:text="@string/cancel" />
-
-	<Button
-		android:id="@+id/resetButton"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true"
-		android:layout_centerHorizontal="true"
-		android:text="@string/title_home" />
+		android:text="@string/cancel"
+		android:onClick="cancel" />
 
 	<Button
 		android:id="@+id/submitButton"
@@ -175,6 +109,7 @@
 		android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true"
 		android:layout_alignParentRight="true"
-		android:text="@string/submit" />
+		android:text="@string/submit"
+		android:onClick="submit" />
 
 </RelativeLayout>

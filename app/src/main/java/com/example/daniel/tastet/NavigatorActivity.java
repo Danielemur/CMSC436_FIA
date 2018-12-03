@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 public class NavigatorActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-    private static final String TAG = "TasteT";
+    public static final String TAG = "TasteT";
     private static final int ADD_STORE_REQUEST = 0;
 
 
@@ -79,7 +79,12 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
     @Override	
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i(TAG, "Entered onActivityResult()");
-
+        if (resultCode == RESULT_OK && requestCode == ADD_STORE_REQUEST) {
+            String locationName = data.getStringExtra(AddStoreActivity.LOCATION_NAME);
+            String locationAddress = data.getStringExtra(AddStoreActivity.LOCATION_ADDRESS);
+            String locationType = data.getStringExtra(AddStoreActivity.LOCATION_TYPE);
+            Log.i(TAG, "Name: " + locationName + "\nAddress: " + locationAddress + "\nType: " + locationType);
+        }
     }
 
     private boolean loadFragment(){
