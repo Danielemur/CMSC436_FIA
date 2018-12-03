@@ -1,115 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:theme="@style/LightTheme" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/LightTheme" >
 
-	<TextView
-		android:id="@+id/add_store_title"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:layout_marginBottom="8dp"
-		android:text="@string/add_store_title"
-		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:textStyle="bold" >
-	</TextView>
+    <TextView
+        android:id="@+id/add_store_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/add_store_title"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold" >
+    </TextView>
 
-	<!-- Location Name -->
+    <!-- Location Name -->
 
-	<TextView
-		android:id="@+id/add_store_name"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_below="@+id/add_store_title"
-		android:layout_marginTop="8dp"
-		android:text="@string/add_store_name"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:textStyle="bold" >
-	</TextView>
+    <TextView
+        android:id="@+id/add_store_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/add_store_title"
+        android:layout_marginTop="8dp"
+        android:text="@string/add_store_name"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" >
+    </TextView>
 
-	<EditText
-		android:id="@+id/add_store_name_entry"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_below="@+id/add_store_name"
-		android:ems="10"
-		android:hint="@string/add_store_name_entry"
-		android:inputType="textShortMessage" >
+    <EditText
+        android:id="@+id/add_store_name_entry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/add_store_name"
+        android:ems="10"
+        android:hint="@string/add_store_name_entry"
+        android:inputType="textShortMessage" >
 
-		<requestFocus />
-	</EditText>
+        <requestFocus />
+    </EditText>
 
-	<!-- Location Address -->
+    <!-- Location Address -->
 
-	<TextView
-		android:id="@+id/add_store_address"
-		android:layout_width="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_below="@+id/add_store_name_entry"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:text="@string/add_store_address"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:textStyle="bold">
-	</TextView>
+    <TextView
+        android:id="@+id/add_store_address"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/add_store_name_entry"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/add_store_address"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold">
+    </TextView>
 
-	<AutoCompleteTextViewText
-		android:id="@+id/add_store_address_entry"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_below="@+id/add_store_address"
-		android:ems="10"
-		android:hint="@string/add_store_address_entry"
-		android:inputType="textShortMessage"
-		android:on >
+    <AutoCompleteTextView
+        android:id="@+id/add_store_address_entry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/add_store_address"
+        android:ems="10"
+        android:hint="@string/add_store_address_entry"
+        android:inputType="textShortMessage" >
 
-		<requestFocus />
-	</AutoCompleteTextViewText>
+        <requestFocus />
+    </AutoCompleteTextView>
 
-	<!-- Location Type -->
+    <!-- Location Type -->
 
-	<TextView
-		android:id="@+id/add_store_type"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_below="@id/add_store_address_entry"
-		android:layout_marginTop="8dp"
-		android:text="@string/add_store_type"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:textStyle="bold" />
+    <TextView
+        android:id="@+id/add_store_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/add_store_address_entry"
+        android:layout_marginTop="8dp"
+        android:text="@string/add_store_type"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
 
-	<Spinner
-		android:id="@+id/add_store_type_entry"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_below="@id/add_store_type"
-		android:entries="@array/location_types"
-		/>
+    <Spinner
+        android:id="@+id/add_store_type_entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/add_store_type"
+        android:entries="@array/location_types"
+        />
 
-	<!-- Buttons -->
+    <!-- Buttons -->
 
-	<Button
-		android:id="@+id/cancelButton"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true"
-		android:layout_alignParentLeft="true"
-		android:text="@string/cancel"
-		android:onClick="cancel" />
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/cancel"
+        android:onClick="cancel" />
 
-	<Button
-		android:id="@+id/submitButton"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true"
-		android:layout_alignParentRight="true"
-		android:text="@string/submit"
-		android:onClick="submit" />
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/submit"
+        android:onClick="submit" />
 
 </RelativeLayout>
