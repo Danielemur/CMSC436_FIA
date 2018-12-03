@@ -2,6 +2,7 @@ package com.example.daniel.tastet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -146,4 +146,37 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
         }
         return loadFragment();
     }
+
+
+    private static Preference.OnPreferenceChangeListener changeListener
+            = new Preference.OnPreferenceChangeListener() {
+
+        public boolean onPreferenceChange(Preference preference, Object value) {
+
+                /*Changing notifications setting*/
+                if (preference.getKey().equals("notification_key")) {
+
+                }
+                /*Changing default zoom setting*/
+                else if (preference.getKey().equals("default_zoom_key")) {
+
+                }
+                /*Changing default location*/
+                else if (preference.getKey().equals("default_location_key")) {
+
+                }
+                /*Error, something went wrong*/
+                else {
+                    return false;
+                }
+
+                return true;
+        }
+
+
+    };
+
+
+
+
 }
