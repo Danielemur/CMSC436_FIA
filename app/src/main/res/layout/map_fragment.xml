@@ -12,12 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+
     <EditText
         android:id="@+id/search"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:inputType="text"/>
+        android:inputType="text"
+        android:text="Search by Address..."/>
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapview"

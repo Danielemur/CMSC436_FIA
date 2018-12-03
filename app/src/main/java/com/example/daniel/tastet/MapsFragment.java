@@ -1,14 +1,20 @@
 package com.example.daniel.tastet;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.location.Geocoder;
 import android.location.Address;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+
 import java.util.List;
+
 import android.view.LayoutInflater;
 import android.view.*;
 import android.widget.EditText;
@@ -16,6 +22,7 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.TextView;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.location.*;
 
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
@@ -31,12 +38,11 @@ public class MapsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.map_fragment, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         mapView = (MapView) view.findViewById(R.id.mapview);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
@@ -45,11 +51,35 @@ public class MapsFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap map) {
                 LatLng ltlng = new LatLng(38.9897, -76.9378);
+                LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                Location location = null;
+
+                double longitude = 0;
+                double latitude = 0;
+
+                if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+                }
+                if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                }
+
+                location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+                if (location == null) {
+                    location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                }
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+
+                if (location != null) {
+                    ltlng = new LatLng(latitude, longitude);
+                }
                 float zoom = 15;
-                UiSettings uiSetting = map.getUiSettings();
-                uiSetting.setZoomControlsEnabled(true);
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(ltlng, zoom));
                 googleMap = map;
+                UiSettings uiSetting = googleMap.getUiSettings();
+                uiSetting.setZoomControlsEnabled(true);
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ltlng, zoom));
             }
         });
 
@@ -61,7 +91,6 @@ public class MapsFragment extends Fragment {
                         actionId == EditorInfo.IME_ACTION_GO ||
                         event.getAction() == KeyEvent.ACTION_DOWN &&
                                 event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                    // hide virtual keyboard
                     try {
                         Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.US);
                         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -75,7 +104,7 @@ public class MapsFragment extends Fragment {
                         LatLng ltlng = new LatLng(address.getLatitude(), address.getLongitude());
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ltlng, 15));
                         mapSearchBox.setText("", TextView.BufferType.EDITABLE);
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         return false;
                     }
                     return true;
@@ -83,7 +112,17 @@ public class MapsFragment extends Fragment {
                 return false;
             }
         });
+    }
 
+    @Override
+    public void onResume() {
+        mapView.onResume();
+        super.onResume();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
     }
 }
