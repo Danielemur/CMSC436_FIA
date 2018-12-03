@@ -1,5 +1,6 @@
 package com.example.daniel.tastet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,12 +8,48 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 public class NavigatorActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+
+    private static final String TAG = "TasteT";
+    private static final int ADD_STORE_REQUEST = 0;
+
+
+    private Fragment currentFragment = null;
+    private Fragment homeFragment = null;
+    private Fragment searchFragment = null;
+    private Fragment mapsFragment = null;
+    private Fragment settingsFragment = null;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_navigator);
+
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(this);
+
+
+        homeFragment = new HomeFragment();
+        searchFragment = new SearchFragment();
+        mapsFragment = new MapsFragment();
+        settingsFragment = new SettingsFragment();
+
+        //initialize to home when just starting up
+        currentFragment = homeFragment;
+        loadFragment();
+
+        //initialize toolbar called appbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp));
+        setSupportActionBar(toolbar);
+
+    }
 
 
     @Override
@@ -28,6 +65,8 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
         //add the two options addlocation and addreview
         switch(item.getItemId()){
             case R.id.add_location:
+                Intent addStore = new Intent(this, AddStoreActivity.class);
+                this.startActivityForResult(addStore, ADD_STORE_REQUEST);
                 //open new location activity
                 break;
             case R.id.add_review:
@@ -37,28 +76,17 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigator);
-
-        BottomNavigationView navigation =  findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(this);
-
-        //initialize to home when just starting up
-        loadFragment(new HomeFragment());
-
-        //initialize toolbar called appbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-        toolbar.setOverflowIcon(ContextCompat.getDrawable(this,R.drawable.add_circle));
-        setSupportActionBar(toolbar);
+    @Override	
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "Entered onActivityResult()");
 
     }
-    private boolean loadFragment(Fragment fragment){
-        if(fragment != null){
+
+    private boolean loadFragment(){
+        if(currentFragment != null){
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container,fragment)
+                    .replace(R.id.fragment_container, currentFragment)
                     .commit();
             return true;
         }
@@ -71,18 +99,18 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
         //switch to the selected menu option
         switch(menuItem.getItemId()){
             case R.id.navigation_home:
-                fragment = new HomeFragment();
+                currentFragment = homeFragment;
                 break;
             case R.id.navigation_search:
-                fragment = new SearchFragment();
+                currentFragment = searchFragment;
                 break;
             case R.id.navigation_map:
-                fragment = new MapsFragment();
+                currentFragment = mapsFragment;
                 break;
             case R.id.navigation_settings:
-                fragment = new SettingsFragment();
+                currentFragment = settingsFragment;
                 break;
         }
-        return loadFragment(fragment);
+        return loadFragment();
     }
 }
