@@ -11,6 +11,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.UUID;
+
 public class NavigatorActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
 
@@ -23,14 +32,21 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //TODO
-        //add the two options addlocation and addreview
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         switch(item.getItemId()){
             case R.id.add_location:
-                //open new location activity
+                String idOne = UUID.randomUUID().toString();
+                DatabaseReference myRef = database.getReference(idOne);
+                HashMap<String, Object> result = new HashMap<>();
+                result.put("Name", "CVS");
+                result.put("Address", "College Park, MD");
+                result.put("Store Type", "Convenience Store");
+
+                myRef.setValue(result);
                 break;
             case R.id.add_review:
-                //open new review activity
+                DatabaseReference myRef2 = database.getReference("Location");
+                myRef2.setValue("Hello, World! Add Review");
                 break;
         }
         return super.onOptionsItemSelected(item);
