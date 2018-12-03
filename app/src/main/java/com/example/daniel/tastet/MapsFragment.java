@@ -18,6 +18,8 @@ import android.support.v4.app.Fragment;
 
 import java.util.*;
 
+import com.google.android.gms.location.places.GeoDataClient;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.*;
 
@@ -25,6 +27,8 @@ import java.util.List;
 
 import android.view.LayoutInflater;
 import android.view.*;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.TextView;
@@ -42,7 +46,7 @@ public class MapsFragment extends Fragment {
     final int PERMISSIONS_REQUEST = 1;
     SharedPreferences sharedPref;
     MapView mapView;
-    EditText mapSearchBox;
+    AutoCompleteTextView mapSearchBox;
     GoogleMap googleMap;
     String streetAdd;
     Address address;
@@ -152,7 +156,19 @@ public class MapsFragment extends Fragment {
             }
         });
 
-        mapSearchBox = (EditText) view.findViewById(R.id.search);
+        mapSearchBox = (AutoCompleteTextView) view.findViewById(R.id.search);
+
+        AddressAutocompleteAdapter addressAdapter = new AddressAutocompleteAdapter(this.getContext());
+        mapSearchBox.setAdapter(addressAdapter);
+        mapSearchBox.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View v, int i, long l) {
+                String address = ((AddressAutocompleteAdapter.Place) adapterView.getItemAtPosition(i))
+                        .getAddress();
+                mapSearchBox.setText(address);
+            }
+        });
+
         mapSearchBox.setOnEditorActionListener(new OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH ||

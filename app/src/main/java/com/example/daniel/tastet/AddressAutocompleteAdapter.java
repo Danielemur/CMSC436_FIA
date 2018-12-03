@@ -155,7 +155,7 @@ public class AddressAutocompleteAdapter extends ArrayAdapter {
 
         private Task<AutocompletePredictionBufferResponse> getAddressList(String query) {
             AutocompleteFilter filter = new AutocompleteFilter.Builder()
-                    .setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS)
+                    .setTypeFilter(AutocompleteFilter.TYPE_FILTER_NONE)
                     .build();
 
             return geoDataClient.getAutocompletePredictions(query, null, filter);
