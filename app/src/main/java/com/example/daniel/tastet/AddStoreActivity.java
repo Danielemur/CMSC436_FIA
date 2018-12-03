@@ -79,8 +79,8 @@ public class AddStoreActivity extends Activity {
         Spinner storeTypeView = this.findViewById(R.id.add_store_type_entry);
 
         Intent intent = new Intent();
-        intent.putExtra(LOCATION_NAME, storeNameView.getText());
-        intent.putExtra(LOCATION_ADDRESS, storeAddressView.getText());
+        intent.putExtra(LOCATION_NAME, storeNameView.getText().toString());
+        intent.putExtra(LOCATION_ADDRESS, storeAddressView.getText().toString());
         intent.putExtra(LOCATION_TYPE, storeTypeView.getSelectedItem().toString());
 
         // return data Intent and finish
