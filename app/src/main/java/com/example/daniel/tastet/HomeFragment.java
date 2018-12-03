@@ -1,12 +1,14 @@
 package com.example.daniel.tastet;
 
+import java.util.Collections;
 
-        import android.os.Bundle;
+import android.os.Bundle;
         import android.support.annotation.NonNull;
         import android.support.annotation.Nullable;
         import android.support.v4.app.Fragment;
 
-        import android.util.Log;
+import android.support.v7.widget.AppCompatRatingBar;
+import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
@@ -35,7 +37,7 @@ package com.example.daniel.tastet;
 public class HomeFragment extends Fragment {
 
     public static final String TAG = "TasteT";
-    ArrayList<String> list_of_reviews = new ArrayList<String>();
+    ArrayList<Review> list_of_reviews = new ArrayList<Review>();
     CustomAdapter customAdapter = new CustomAdapter();
     @Nullable
     @Override
@@ -80,8 +82,8 @@ public class HomeFragment extends Fragment {
                                     cut_off_review = review_body;
                                 }
                                 String review_to_display = storeName + ":" + " Rating: " + overall + " stars" +  cut_off_review;
-
-                                list_of_reviews.add(review_to_display);
+                                Review reviewObj = new Review(overall,review_body,date,price,storeName,review_to_display);
+                                list_of_reviews.add(reviewObj);
                                 customAdapter.notifyDataSetChanged();
                             }
                         }
@@ -99,6 +101,38 @@ public class HomeFragment extends Fragment {
 
         listView.setAdapter(customAdapter);
 
+    }
+    class Review implements Comparable<Review>{
+        private int overall;
+        private String body;
+        private Date date;
+        private int price;
+        private String storeName;
+        private String smallBody;
+        private String displayBody;
+        public Review(int overall,String body,Date date,int price,String storeName,String displayBody){
+            this.body = body;
+            this.overall = overall;
+            this.date = date;
+            this.price = price;
+            this.storeName = storeName;
+            if(body.length() > 15){
+                smallBody = body.substring(0,15) + "...";
+            }else{
+                smallBody = body;
+            }
+            this.displayBody = displayBody;
+        }
+        public String getDisplayBody(){
+            return this.displayBody;
+        }
+        public int getOverall(){
+            return overall;
+        }
+        @Override
+        public int compareTo(Review other){
+            return this.date.compareTo(other.date);
+        }
     }
     class CustomAdapter extends BaseAdapter{
 
@@ -119,9 +153,13 @@ public class HomeFragment extends Fragment {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+            Collections.sort(list_of_reviews);
             view = getLayoutInflater().inflate(R.layout.single_review,null);
             TextView reviewTextView = view.findViewById(R.id.singleReview);
-            reviewTextView.setText(list_of_reviews.get(i));
+            AppCompatRatingBar ratingBar = view.findViewById(R.id.ratingBar);
+            ratingBar.setRating(list_of_reviews.get(i).getOverall());
+            //ratingBar.setEnabled(false);
+            reviewTextView.setText(list_of_reviews.get(i).getDisplayBody());
             return view;
         }
     }
