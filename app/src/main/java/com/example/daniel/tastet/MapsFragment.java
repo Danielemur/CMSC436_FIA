@@ -76,7 +76,6 @@ public class MapsFragment extends Fragment {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference polls = database.getReference();
 
-
                 if (streetAdd.equals("") || streetAdd.equals("Current Location")) {
                     if (ActivityCompat.checkSelfPermission(getContext(),
                             android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
@@ -124,9 +123,9 @@ public class MapsFragment extends Fragment {
                 polls.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                        Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.US);
                         for (DataSnapshot child : snapshot.getChildren()) {
                             try {
+                                Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.US);
                                 Map<String, Object> hash = (Map<String, Object>) child.getValue();
                                 if (hash.containsKey("Address")) {
                                     List<Address> results = geocoder.getFromLocationName((String) hash.get("Address"), 1);
