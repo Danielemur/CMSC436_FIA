@@ -56,7 +56,7 @@
 		android:textStyle="bold">
 	</TextView>
 
-	<AutoCompleteTextViewText
+	<AutoCompleteTextView
 		android:id="@+id/add_store_address_entry"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -64,11 +64,10 @@
 		android:layout_below="@+id/add_store_address"
 		android:ems="10"
 		android:hint="@string/add_store_address_entry"
-		android:inputType="textShortMessage"
-		android:on >
+		android:inputType="textShortMessage" >
 
 		<requestFocus />
-	</AutoCompleteTextViewText>
+	</AutoCompleteTextView>
 
 	<!-- Location Type -->
 

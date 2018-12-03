@@ -27,6 +27,7 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
 
     public static final String TAG = "TasteT";
     private static final int ADD_STORE_REQUEST = 0;
+    private static final int ADD_REVIEW_REQUEST = 1;
 
 
     private Fragment currentFragment = null;
@@ -70,7 +71,6 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         switch(item.getItemId()){
             case R.id.add_location:
                 Intent addStore = new Intent(this, AddStoreActivity.class);
@@ -78,8 +78,6 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                 //open new location activity
                 break;
             case R.id.add_review:
-                DatabaseReference myRef2 = database.getReference("Location");
-                myRef2.setValue("Hello, World! Add Review");
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -88,22 +86,32 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
     @Override	
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i(TAG, "Entered onActivityResult()");
-        if (resultCode == RESULT_OK && requestCode == ADD_STORE_REQUEST) {
-            String locationName = data.getStringExtra(AddStoreActivity.LOCATION_NAME);
-            String locationAddress = data.getStringExtra(AddStoreActivity.LOCATION_ADDRESS);
-            String locationType = data.getStringExtra(AddStoreActivity.LOCATION_TYPE);
-            Log.i(TAG, "Name: " + locationName + "\nAddress: " + locationAddress + "\nType: " + locationType);
+        if (resultCode == RESULT_OK) {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            switch(requestCode) {
+                case ADD_STORE_REQUEST: {
+                    String locationName = data.getStringExtra(AddStoreActivity.LOCATION_NAME);
+                    String locationAddress = data.getStringExtra(AddStoreActivity.LOCATION_ADDRESS);
+                    String locationType = data.getStringExtra(AddStoreActivity.LOCATION_TYPE);
+                    Log.i(TAG, "Name: " + locationName + "\nAddress: " + locationAddress + "\nType: " + locationType);
 
 
-                String idOne = UUID.randomUUID().toString();
-                DatabaseReference myRef = database.getReference(idOne);
-                HashMap<String, Object> result = new HashMap<>();
-                result.put("Name", "CVS");
-                result.put("Address", "College Park, MD");
-                result.put("Store Type", "Convenience Store");
+                    String idOne = UUID.randomUUID().toString();
+                    DatabaseReference myRef = database.getReference(idOne);
+                    HashMap<String, Object> result = new HashMap<>();
+                    result.put("Name", "CVS");
+                    result.put("Address", "College Park, MD");
+                    result.put("Store Type", "Convenience Store");
 
-                myRef.setValue(result);
-	    
+                    myRef.setValue(result);
+
+                }
+                case ADD_REVIEW_REQUEST: {
+                    DatabaseReference myRef2 = database.getReference("Location");
+                    myRef2.setValue("Hello, World! Add Review");
+                }
+            }
+
         }
     }
 
