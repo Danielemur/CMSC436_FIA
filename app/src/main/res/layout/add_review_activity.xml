@@ -1,219 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:theme="@style/LightTheme" >
-
-    <TextView
-        android:id="@+id/add_review_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/add_review_title"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold" >
-    </TextView>
-
-    <!--Store name-->
-    <!--Review title-->
-    <!--Commenter name-->
-    <!--Overall rating-->
-    <!--Price Rating-->
-    <!--Freshness Rating-->
-    <!--Taste Rating-->
-    <!--Truncated review text-->
-
-    <!--date-->
-    <!--distance-->
-
-    <!-- Review Title -->
-
-    <TextView
-        android:id="@+id/add_review_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_review_title"
-        android:layout_marginTop="8dp"
-        android:text="@string/add_review_name"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold" >
-    </TextView>
-
-    <EditText
-        android:id="@+id/add_review_name_entry"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_review_name"
-        android:ems="10"
-        android:hint="@string/add_review_name_entry"
-        android:inputType="textShortMessage" >
+        android:layout_height="match_parent"
+        android:theme="@style/LightTheme" >
 
-        <requestFocus />
-    </EditText>
+        <TextView
+            android:id="@+id/add_review_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/add_review_title"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold" >
+        </TextView>
 
-    <!-- Reviewer Name -->
+        <!--Store name-->
+        <!--Review title-->
+        <!--Commenter name-->
+        <!--Overall rating-->
+        <!--Price Rating-->
+        <!--Freshness Rating-->
+        <!--Taste Rating-->
+        <!--Truncated review text-->
 
-    <TextView
-        android:id="@+id/add_review_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_review_name_entry"
-        android:layout_marginTop="8dp"
-        android:text="@string/add_review_user"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold" >
-    </TextView>
+        <!--date-->
+        <!--distance-->
 
-    <EditText
-        android:id="@+id/add_review_user_entry"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_review_user"
-        android:ems="10"
-        android:hint="@string/add_review_user_entry"
-        android:inputType="textShortMessage" >
-    </EditText>
+        <!-- Review Title -->
 
-    <!-- Overall Rating -->
+        <TextView
+            android:id="@+id/add_review_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/add_review_title"
+            android:layout_marginTop="8dp"
+            android:text="@string/add_review_name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" >
+        </TextView>
 
-    <TextView
-        android:id="@+id/add_review_rating_overall"
-        android:layout_width="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_review_user_entry"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/add_review_rating_overall"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold">
-    </TextView>
+        <EditText
+            android:id="@+id/add_review_name_entry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/add_review_name"
+            android:ems="10"
+            android:hint="@string/add_review_name_entry"
+            android:inputType="textShortMessage" >
 
-    <RatingBar
-        android:id="@+id/add_review_rating_overall_bar"
-        android:layout_width="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_review_rating_overall"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" >
-    </RatingBar>
+            <requestFocus />
+        </EditText>
 
-    <!-- Freshness Rating -->
+        <!-- Reviewer Name -->
 
-    <TextView
-        android:id="@+id/add_review_rating_freshness"
-        android:layout_width="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_review_rating_overall_bar"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/add_review_rating_freshness"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold">
-    </TextView>
+        <TextView
+            android:id="@+id/add_review_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/add_review_name_entry"
+            android:layout_marginTop="8dp"
+            android:text="@string/add_review_user"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" >
+        </TextView>
 
-    <RatingBar
-        android:id="@+id/add_review_rating_freshness_bar"
-        android:layout_width="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_review_rating_freshness"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" >
-    </RatingBar>
+        <EditText
+            android:id="@+id/add_review_user_entry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/add_review_user"
+            android:ems="10"
+            android:hint="@string/add_review_user_entry"
+            android:inputType="textShortMessage" >
+        </EditText>
 
-    <!-- Taste Rating -->
+        <!-- Overall Rating -->
 
-    <TextView
-        android:id="@+id/add_review_rating_taste"
-        android:layout_width="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_review_rating_freshness_bar"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/add_review_rating_taste"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold">
-    </TextView>
+        <TextView
+            android:id="@+id/add_review_rating_overall"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/add_review_user_entry"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/add_review_rating_overall"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold">
+        </TextView>
 
-    <RatingBar
-        android:id="@+id/add_review_rating_taste_bar"
-        android:layout_width="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_review_rating_taste"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" >
-    </RatingBar>
+        <RatingBar
+            android:id="@+id/add_review_rating_overall_bar"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/add_review_rating_overall"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" >
+        </RatingBar>
 
-    <!-- Price Rating -->
+        <!-- Freshness Rating -->
 
-    <TextView
-        android:id="@+id/add_review_rating_price"
-        android:layout_width="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_review_rating_taste_bar"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/add_review_rating_price"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold">
-    </TextView>
+        <TextView
+            android:id="@+id/add_review_rating_freshness"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/add_review_rating_overall_bar"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/add_review_rating_freshness"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold">
+        </TextView>
 
-    <RatingBar
-        android:id="@+id/add_review_rating_price_bar"
-        android:layout_width="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_review_rating_price"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" >
-    </RatingBar>
+        <RatingBar
+            android:id="@+id/add_review_rating_freshness_bar"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/add_review_rating_freshness"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" >
+        </RatingBar>
 
-    <!-- Review Body -->
+        <!-- Taste Rating -->
 
-    <TextView
-        android:id="@+id/add_review_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_review_rating_price_bar"
-        android:layout_marginTop="8dp"
-        android:text="@string/add_review_text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold" >
-    </TextView>
+        <TextView
+            android:id="@+id/add_review_rating_taste"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/add_review_rating_freshness_bar"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/add_review_rating_taste"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold">
+        </TextView>
 
-    <EditText
-        android:id="@+id/add_review_text_entry"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/add_review_text"
-        android:ems="10"
-        android:hint="@string/add_review_text_entry"
-        android:inputType="textLongMessage|textMultiLine" >
-    </EditText>
+        <RatingBar
+            android:id="@+id/add_review_rating_taste_bar"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/add_review_rating_taste"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" >
+        </RatingBar>
 
-    <!-- Buttons -->
+        <!-- Price Rating -->
 
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:text="@string/cancel"
-        android:onClick="cancel" />
+        <TextView
+            android:id="@+id/add_review_rating_price"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/add_review_rating_taste_bar"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/add_review_rating_price"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold">
+        </TextView>
 
-    <Button
-        android:id="@+id/submitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="@string/submit"
-        android:onClick="submit" />
+        <RatingBar
+            android:id="@+id/add_review_rating_price_bar"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/add_review_rating_price"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" >
+        </RatingBar>
 
-</RelativeLayout>
+        <!-- Review Body -->
+
+        <TextView
+            android:id="@+id/add_review_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/add_review_rating_price_bar"
+            android:layout_marginTop="8dp"
+            android:text="@string/add_review_text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/add_review_text_entry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/add_review_text"
+            android:ems="10"
+            android:hint="@string/add_review_text_entry"
+            android:inputType="textLongMessage|textMultiLine" >
+        </EditText>
+
+        <!-- Buttons -->
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_review_text_entry"
+            android:layout_alignParentLeft="true"
+            android:text="@string/cancel"
+            android:onClick="cancel" />
+
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_review_text_entry"
+            android:layout_alignParentRight="true"
+            android:text="@string/submit"
+            android:onClick="submit" />
+
+    </RelativeLayout>
+</ScrollView>
