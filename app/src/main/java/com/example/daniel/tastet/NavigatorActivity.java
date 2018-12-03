@@ -29,7 +29,6 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
 
     public static final String TAG = "TasteT";
     private static final int ADD_STORE_REQUEST = 0;
-    private static final int ADD_REVIEW_REQUEST = 1;
 
 
     private Fragment currentFragment = null;
@@ -84,11 +83,6 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                 this.startActivityForResult(addStore, ADD_STORE_REQUEST);
                 //open new location activity
                 break;
-            case R.id.add_review:
-                Intent addReview = new Intent(this, AddReviewActivity.class);
-                this.startActivityForResult(addReview, ADD_REVIEW_REQUEST);
-                //open new location activity
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -115,10 +109,6 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
 
                     myRef.setValue(result);
 
-                }
-                case ADD_REVIEW_REQUEST: {
-                    DatabaseReference myRef2 = database.getReference("Location");
-                    myRef2.setValue("Hello, World! Add Review");
                 }
             }
 
