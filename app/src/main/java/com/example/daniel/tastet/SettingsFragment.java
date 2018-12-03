@@ -14,9 +14,15 @@ import android.view.ViewGroup;
 public class SettingsFragment extends PreferenceFragmentCompat {
 
     @Override
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+    }
+
+    @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.preferences);
     }
+
 
 
 }
