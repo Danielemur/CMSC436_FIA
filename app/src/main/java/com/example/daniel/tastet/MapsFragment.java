@@ -12,6 +12,7 @@ import android.util.Log;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+
 import java.util.*;
 
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -63,11 +64,22 @@ public class MapsFragment extends Fragment {
                 double longitude = 0;
                 double latitude = 0;
 
-                if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+          /*      if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
                 }
                 if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+                }
+*/
+                if (ActivityCompat.checkSelfPermission(getContext(),
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(getContext(),
+                                android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+                } else {
+                    Log.e("DB", "PERMISSION GRANTED");
                 }
 
                 location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -90,21 +102,24 @@ public class MapsFragment extends Fragment {
                     public void onDataChange(DataSnapshot snapshot) {
                         Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.US);
                         for (DataSnapshot child : snapshot.getChildren()) {
-                            Map<String, String> hash = (Map<String, String>) child.getValue();
+                            Map<String, Object> hash = (Map<String, Object>) child.getValue();
                             try {
-                                List<Address> results = geocoder.getFromLocationName(hash.get("Address"), 1);
-                                if (results.size() != 0) {
-                                    address = results.get(0);
-                                    LatLng ltlng = new LatLng(address.getLatitude(), address.getLongitude());
-                                    googleMap.addMarker(new MarkerOptions()
-                                            .position(ltlng)
-                                            .title(hash.get("Name")));
+                                if (hash.containsKey("Address")) {
+                                    List<Address> results = geocoder.getFromLocationName((String) hash.get("Address"), 1);
+                                    if (results.size() != 0) {
+                                        address = results.get(0);
+                                        LatLng ltlng = new LatLng(address.getLatitude(), address.getLongitude());
+                                        googleMap.addMarker(new MarkerOptions()
+                                                .position(ltlng)
+                                                .title((String) hash.get("Name")));
+                                    }
                                 }
                             } catch (Exception e) {
 
                             }
                         }
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         System.out.println("The read failed: " + databaseError.getCode());
