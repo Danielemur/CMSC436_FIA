@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -49,6 +50,7 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
 
         //initialize toolbar called appbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar.setOverflowIcon(ContextCompat.getDrawable(this,R.drawable.add_circle));
         setSupportActionBar(toolbar);
 
     }
