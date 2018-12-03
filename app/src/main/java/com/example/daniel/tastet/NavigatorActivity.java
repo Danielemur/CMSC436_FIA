@@ -57,7 +57,7 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
         loadFragment();
 
         //initialize toolbar called appbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
         toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp));
         setSupportActionBar(toolbar);
 

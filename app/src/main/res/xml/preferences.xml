@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="56dp">
-    <!--<EditTextPreference-->
-        <!--android:layout_height="10dp">-->
-    <!--</EditTextPreference>-->
-    <Preference android:layout_width="1dp"></Preference>
+    android:layout_width="match_parent" android:layout_height="match_parent">
     <SwitchPreferenceCompat
-        android:defaultValue="true"
         android:layout_marginTop="56dp"
+        android:defaultValue="true"
         android:layout_height="wrap_content"
         android:dialogTitle="Enable Notifications"
         android:key="notification_key"
