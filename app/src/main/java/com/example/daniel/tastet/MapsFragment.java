@@ -51,13 +51,7 @@ public class MapsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (ActivityCompat.checkSelfPermission(getContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(getContext(),
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST);
-        }
+
         return inflater.inflate(R.layout.map_fragment, container, false);
     }
 
@@ -85,7 +79,7 @@ public class MapsFragment extends Fragment {
 
                 if (streetAdd.equals("") || streetAdd.equals("Current Location")) {
                     if (ActivityCompat.checkSelfPermission(getContext(),
-                            android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                            android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                             ActivityCompat.checkSelfPermission(getContext(),
                                     android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         // No permission for current location

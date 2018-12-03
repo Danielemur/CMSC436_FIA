@@ -1,10 +1,12 @@
 package com.example.daniel.tastet;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -58,6 +60,11 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp));
         setSupportActionBar(toolbar);
+
+        if (ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
 
     }
 
