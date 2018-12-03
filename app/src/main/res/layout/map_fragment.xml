@@ -22,7 +22,7 @@
         android:padding="10dp"
         android:layout_width="match_parent"
         android:inputType="text"
-        android:text="Search by Address..."/>
+        android:hint="Search by Address..."/>
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapview"

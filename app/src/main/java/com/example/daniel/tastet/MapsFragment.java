@@ -12,6 +12,10 @@ import android.util.Log;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import java.util.*;
+
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.*;
 
 import java.util.List;
 
@@ -53,6 +57,8 @@ public class MapsFragment extends Fragment {
                 LatLng ltlng = new LatLng(38.9897, -76.9378);
                 LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 Location location = null;
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference polls = database.getReference();
 
                 double longitude = 0;
                 double latitude = 0;
@@ -79,6 +85,31 @@ public class MapsFragment extends Fragment {
                 googleMap = map;
                 UiSettings uiSetting = googleMap.getUiSettings();
                 uiSetting.setZoomControlsEnabled(true);
+                polls.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.US);
+                        for (DataSnapshot child : snapshot.getChildren()) {
+                            Map<String, String> hash = (Map<String, String>) child.getValue();
+                            try {
+                                List<Address> results = geocoder.getFromLocationName(hash.get("Address"), 1);
+                                if (results.size() != 0) {
+                                    address = results.get(0);
+                                    LatLng ltlng = new LatLng(address.getLatitude(), address.getLongitude());
+                                    googleMap.addMarker(new MarkerOptions()
+                                            .position(ltlng)
+                                            .title(hash.get("Name")));
+                                }
+                            } catch (Exception e) {
+
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("The read failed: " + databaseError.getCode());
+                    }
+                });
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ltlng, zoom));
             }
         });
@@ -100,7 +131,6 @@ public class MapsFragment extends Fragment {
                             return false;
                         }
                         address = results.get(0);
-                        Log.d("yeet", mapSearchBox.getText().toString());
                         LatLng ltlng = new LatLng(address.getLatitude(), address.getLongitude());
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ltlng, 15));
                         mapSearchBox.setText("", TextView.BufferType.EDITABLE);
