@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="56dp">
+    <!--<EditTextPreference-->
+        <!--android:layout_height="10dp">-->
+    <!--</EditTextPreference>-->
+    <EditTextPreference></EditTextPreference>
     <SwitchPreferenceCompat
         android:defaultValue="true"
+        android:layout_marginTop="56dp"
+        android:layout_height="wrap_content"
         android:dialogTitle="Enable Notifications"
         android:key="notification_key"
         android:summary="Receive a notification if a review of a store within 10 miles of your default location is posted"
         android:title="Notification" />
 
     <EditTextPreference
+        android:layout_marginTop="56dp"
+        android:layout_height="wrap_content"
         android:defaultValue="Current Location"
         android:dialogTitle="Default Location"
         android:key="default_location_key"
@@ -15,6 +24,8 @@
         android:title="Default Location" />
 
     <ListPreference
+        android:layout_marginTop="56dp"
+        android:layout_height="wrap_content"
         android:defaultValue="15"
         android:dialogTitle="Default Zoom"
         android:entries="@array/zoom_list_preference"
