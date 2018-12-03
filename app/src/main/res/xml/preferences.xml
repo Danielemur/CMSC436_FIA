@@ -4,7 +4,7 @@
     <!--<EditTextPreference-->
         <!--android:layout_height="10dp">-->
     <!--</EditTextPreference>-->
-    <EditTextPreference></EditTextPreference>
+    <Preference android:layout_width="1dp"></Preference>
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:layout_marginTop="56dp"
