@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:dialogTitle="Enable Notifications"
+        android:key="notification_key"
+        android:summary="Receive a notification if a review of a store within 10 miles of your default location is posted"
+        android:title="Notification" />
 
-       <SwitchPreferenceCompat
-           android:dialogTitle="Enable Notifications"
-           android:key="notification_key"
-           android:summary="Receive a notification if a review of a store within 10 miles of your default location is posted"
-           android:title="Notification"
-           android:defaultValue="true"/>
+    <EditTextPreference
+        android:dialogTitle="Default Location"
+        android:key="default_location_key"
+        android:summary="Defaults to your location of downloading"
+        android:title="Default Location" />
 
-
-        <EditTextPreference
-            android:dialogTitle="Default Location"
-            android:key="default_location_key"
-            android:summary="Defaults to your location of downloading"
-            android:title="Default Location"/>
-
-        <ListPreference
-            android:dialogTitle="Default Zoom"
-            android:key="default_zoom_key"
-            android:summary="Default level of zoom when the map loads"
-            android:title="Default Location"
-            android:entries="@array/zoom_list_preference"
-            android:entryValues="@array/zoom_values_list_preference"
-            android:defaultValue="1"
-            />
-
-
-
+    <ListPreference
+        android:defaultValue="1"
+        android:dialogTitle="Default Zoom"
+        android:entries="@array/zoom_list_preference"
+        android:entryValues="@array/zoom_values_list_preference"
+        android:key="default_zoom_key"
+        android:summary="Default level of zoom when the map loads"
+        android:title="Default Location" />
 
 </PreferenceScreen>
