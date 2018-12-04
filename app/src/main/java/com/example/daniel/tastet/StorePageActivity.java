@@ -42,6 +42,7 @@ public class StorePageActivity extends Activity {
                     Float reviewPrice = data.getFloatExtra(AddReviewActivity.REVIEW_PRICE, 0f);
                     String reviewText = data.getStringExtra(AddReviewActivity.REVIEW_TEXT);
 
+
                     // TODO: replace this AddStore stuff with AddReview Stuff
                     String idOne = UUID.randomUUID().toString();
                     DatabaseReference myRef = database.getReference(idOne);

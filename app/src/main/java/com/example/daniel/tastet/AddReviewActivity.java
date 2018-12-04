@@ -13,6 +13,8 @@ import android.widget.Spinner;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Places;
 
+import java.util.Date;
+
 
 public class AddReviewActivity extends Activity {
     public static final String REVIEW_TITLE = "REVIEW_TITLE";
@@ -22,6 +24,8 @@ public class AddReviewActivity extends Activity {
     public static final String REVIEW_TASTE = "REVIEW_TASTE";
     public static final String REVIEW_PRICE = "REVIEW_PRICE";
     public static final String REVIEW_TEXT = "REVIEW_TEXT";
+    public static final String REVIEW_DATE = "REVIEW_DATE";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,8 +49,6 @@ public class AddReviewActivity extends Activity {
         RatingBar reviewPriceView = this.findViewById(R.id.add_review_rating_price_bar);
         EditText reviewTextView = this.findViewById(R.id.add_review_text_entry);
 
-
-
         Intent intent = new Intent();
         intent.putExtra(REVIEW_TITLE, reviewTitleView.getText());
         intent.putExtra(REVIEW_USER, reviewUserView.getText());
@@ -55,6 +57,7 @@ public class AddReviewActivity extends Activity {
         intent.putExtra(REVIEW_TASTE, reviewTasteView.getRating());
         intent.putExtra(REVIEW_PRICE, reviewPriceView.getRating());
         intent.putExtra(REVIEW_TEXT, reviewTextView.getText());
+        intent.putExtra(REVIEW_DATE, new java.util.Date().toString());
 
         // return data Intent and finish
         setResult(RESULT_OK, intent);
