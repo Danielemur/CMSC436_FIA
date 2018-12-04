@@ -74,8 +74,9 @@ public class HomeFragment extends Fragment {
                                 int freshness = Integer.parseInt(review.get("Freshness").toString());
                                 int overall = Integer.parseInt(review.get("Overall").toString());
                                 Log.i(TAG,"price freshness overall" + price + " " + freshness + " " + overall);
-                                String pattern = "EEE MMM DD HH:MM:SS ZZZ yyyy";
-                                SimpleDateFormat dateFormat= new SimpleDateFormat(pattern,Locale.US);
+
+                                String pattern = "EEE MMM dd HH:mm:ss zzz yyyy";
+                                SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.ENGLISH);
                                 Date date = dateFormat.parse((String) review.get("Date"));
                                 String review_body = review.get("Body").toString();
                                 String cut_off_review = "";

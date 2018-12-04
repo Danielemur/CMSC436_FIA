@@ -152,9 +152,9 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                             List<Map<String, Object>> reviews = (List<Map<String, Object>>) hash.get(REVIEWS_KEY);
                             boolean foundTime = false;
                             for (Map<String, Object> review : reviews) {
-                                String pattern = "EEE MMM DD HH:MM:SS ZZZ yyyy";
-                                SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.US);
-                                Date date = dateFormat.parse((String) review.get(DATE_KEY));
+                                String pattern = "EEE MMM dd HH:mm:ss zzz yyyy";
+                                SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.ENGLISH);
+                                Date date = dateFormat.parse(((String) review.get(DATE_KEY)));
                                 Log.d("Get Date", (String) review.get(DATE_KEY));
                                 Log.d("Timestamp", date.toString());
                                 Log.d("CurrentTime", new Date().toString());
