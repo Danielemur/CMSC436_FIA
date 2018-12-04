@@ -1,6 +1,7 @@
 package com.example.daniel.tastet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -26,7 +28,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -36,8 +37,8 @@ public class SearchFragment extends Fragment {
     public static final String TAG = "TasteT";
     EditText searchBox;
     String storeQuery;
-    ArrayList<SearchFragment.Store> list_of_stores = new ArrayList<Store>();
-    ArrayList<SearchFragment.Store> matchedStores = new ArrayList<Store>();
+    ArrayList<Store> list_of_stores = new ArrayList<Store>();
+    ArrayList<Store> matchedStores = new ArrayList<Store>();
     SearchFragment.CustomAdapter customAdapter = new SearchFragment.CustomAdapter();
 
     @Nullable
@@ -121,7 +122,7 @@ public class SearchFragment extends Fragment {
                         if (storeName == null) {
                             storeName = "N/A";
                         }
-                        List<SearchFragment.Review> list_of_reviews = new ArrayList<SearchFragment.Review>();
+                        List<Review> list_of_reviews = new ArrayList<Review>();
                         if (store.containsKey("Reviews")) {
                             List<Map<String, Object>> reviews = (List<Map<String, Object>>) store.get("Reviews");
 
@@ -141,7 +142,7 @@ public class SearchFragment extends Fragment {
                                     cut_off_review = review_body;
                                 }
                                 String review_to_display = store + ":" + " Rating: " + overall + " stars" + cut_off_review;
-                                SearchFragment.Review reviewObj = new SearchFragment.Review(overall, review_body, date, price, storeName, review_to_display);
+                                Review reviewObj = new Review(overall, review_body, date, price, storeName, review_to_display);
                                 list_of_reviews.add(reviewObj);
                                 customAdapter.notifyDataSetChanged();
                             }
@@ -158,97 +159,17 @@ public class SearchFragment extends Fragment {
             }
         });
         ListView listView = view.findViewById(R.id.list_of_stores);
-
         listView.setAdapter(customAdapter);
-    }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
+                Store s =  ((Store) adapterView.getItemAtPosition(i));
 
-    class Review implements Comparable<SearchFragment.Review> {
-        private int overall;
-        private String body;
-        private Date date;
-        private int price;
-        private String storeName;
-        private String smallBody;
-        private String displayBody;
-
-        public Review(int overall, String body, Date date, int price, String storeName, String displayBody) {
-            this.body = body;
-            this.overall = overall;
-            this.date = date;
-            this.price = price;
-            this.storeName = storeName;
-            if (body.length() > 15) {
-                smallBody = body.substring(0, 15) + "...";
-            } else {
-                smallBody = body;
+                Intent storePage = new Intent(SearchFragment.this.getContext(), StorePageActivity.class);
+                s.packageIntent(storePage);
+                SearchFragment.this.getActivity().startActivity(storePage);
             }
-            this.displayBody = displayBody;
-        }
-
-        public String getDisplayBody() {
-            return this.displayBody;
-        }
-
-        public int getOverall() {
-            return overall;
-        }
-
-        public String getName() {
-            return storeName;
-        }
-
-        public String getReviewBody() {
-            return body;
-        }
-
-
-        @Override
-        public int compareTo(Review review) {
-            return this.date.compareTo(review.date);
-        }
-    }
-
-    class Store {
-        private String locationName;
-        private String locationAddress;
-        private String locationType;
-        private float rating;
-        private String hashKey;
-        private List<Review> reviews;
-
-        public Store(String locationName, String locationAddress, String locationType, float rating
-                , String hashKey, List<Review> reviews) {
-            this.locationAddress = locationAddress;
-            this.locationName = locationName;
-            this.locationType = locationType;
-            this.rating = rating;
-            this.hashKey = hashKey;
-            this.reviews = reviews;
-        }
-
-        public List<Review> getReviews() {
-            return reviews;
-        }
-
-        public String getHashKey() {
-            return hashKey;
-        }
-
-        public String getLocationAddress() {
-            return this.locationAddress;
-        }
-
-        public String getLocationName() {
-            return this.locationName;
-        }
-
-        public String getLocationType() {
-            return this.locationType;
-        }
-
-        public float getRating() {
-            return rating;
-        }
+        });
     }
 
     class CustomAdapter extends BaseAdapter {
@@ -273,7 +194,7 @@ public class SearchFragment extends Fragment {
 
             view = getLayoutInflater().inflate(R.layout.single_store, null);
 
-            SearchFragment.Store thisStore = matchedStores.get(i);
+            Store thisStore = matchedStores.get(i);
             Log.i(TAG,"printing out store " + thisStore.getLocationName());
             TextView reviewBoldTitleTextView = view.findViewById(R.id.singleStoreBoldTitle);
             reviewBoldTitleTextView.setText(thisStore.getLocationName());

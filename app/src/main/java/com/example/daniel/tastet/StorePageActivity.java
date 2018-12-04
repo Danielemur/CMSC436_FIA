@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -18,6 +20,22 @@ public class StorePageActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setContentView(R.layout.store_page_activity);
+
+        Store s = new Store(this.getIntent());
+
+
+        TextView storeNameView = this.findViewById(R.id.store_name_entry);
+        TextView storeAddressView = this.findViewById(R.id.store_address_entry);
+        TextView storeTypeView = this.findViewById(R.id.store_type_entry);
+        RatingBar storeRatingView = this.findViewById(R.id.store_overall_rating);
+
+        storeNameView.setText(s.getLocationName());
+        storeAddressView.setText(s.getLocationAddress());
+        storeTypeView.setText(s.getLocationType());
+        //TODO
+        storeRatingView.setRating(3.5f);
+
     }
 
 
@@ -42,6 +60,7 @@ public class StorePageActivity extends Activity {
                     float reviewTaste = data.getFloatExtra(AddReviewActivity.REVIEW_TASTE, 3);
                     float reviewPrice = data.getFloatExtra(AddReviewActivity.REVIEW_PRICE, 3);
                     String reviewText = data.getStringExtra(AddReviewActivity.REVIEW_TEXT).toString();
+
                     String idOne = UUID.randomUUID().toString();
                     DatabaseReference myRef = database.getReference(idOne);
                     Map<String, Object> result = new HashMap<>();
