@@ -31,6 +31,7 @@ import com.google.firebase.database.*;
 
 import android.location.*;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.RemoteViews;
@@ -83,7 +84,6 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
 
         //initialize toolbar called appbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
-        toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp));
         setSupportActionBar(toolbar);
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
@@ -238,18 +238,10 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.add_location: {
-                Intent addStore = new Intent(this, AddStoreActivity.class);
-                this.startActivityForResult(addStore, ADD_STORE_REQUEST);
-                //open new location activity
-                break;
-            }
-
-        }
-        return super.onOptionsItemSelected(item);
+    public void launchAddStoreActivity(MenuItem menuItem) {
+        //open new location activity
+        Intent addStore = new Intent(this, AddStoreActivity.class);
+        this.startActivityForResult(addStore, ADD_STORE_REQUEST);
     }
 
     @Override
