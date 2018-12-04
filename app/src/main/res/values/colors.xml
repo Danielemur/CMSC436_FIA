@@ -8,4 +8,7 @@
     <!--<color name="colorPrimaryDark">#44CF6C</color>-->
     <!--<color name="colorAccent">#A9FDAC</color>-->
     <!--<color name="colorBackground">#32A287</color>-->
+    <color name="duskYellow">#FFDB1A</color>
+    <color name="lightGrey">#A9A9A9</color>
+
 </resources>
