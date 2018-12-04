@@ -62,6 +62,8 @@
     <string name="freshness">Freshness</string>
     <string name="taste">Taste</string>
     <string name="price">Price</string>
+    <string name="comments">Comments</string>
+
 
 
 </resources>
