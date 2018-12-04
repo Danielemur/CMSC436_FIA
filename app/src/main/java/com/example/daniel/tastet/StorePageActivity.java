@@ -104,7 +104,7 @@ public class StorePageActivity extends Activity {
                             System.out.println("The read failed: " + databaseError.getCode());
                         }
                     });
-                    
+
                     break;
                 }
             }

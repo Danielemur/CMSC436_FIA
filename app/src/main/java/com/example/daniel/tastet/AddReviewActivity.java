@@ -50,13 +50,13 @@ public class AddReviewActivity extends Activity {
         EditText reviewTextView = this.findViewById(R.id.add_review_text_entry);
 
         Intent intent = new Intent();
-        intent.putExtra(REVIEW_TITLE, reviewTitleView.getText());
-        intent.putExtra(REVIEW_USER, reviewUserView.getText());
+        intent.putExtra(REVIEW_TITLE, reviewTitleView.getText().toString());
+        intent.putExtra(REVIEW_USER, reviewUserView.getText().toString());
         intent.putExtra(REVIEW_OVERALL, reviewOverallView.getRating());
         intent.putExtra(REVIEW_FRESHNESS, reviewFreshnessView.getRating());
         intent.putExtra(REVIEW_TASTE, reviewTasteView.getRating());
         intent.putExtra(REVIEW_PRICE, reviewPriceView.getRating());
-        intent.putExtra(REVIEW_TEXT, reviewTextView.getText());
+        intent.putExtra(REVIEW_TEXT, reviewTextView.getText().toString());
         intent.putExtra(REVIEW_DATE, new java.util.Date().toString());
 
         // return data Intent and finish
