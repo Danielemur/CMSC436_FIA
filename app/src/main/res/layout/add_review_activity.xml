@@ -2,11 +2,11 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:theme="@style/LightTheme" >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:theme="@style/LightTheme" >
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/add_review_title"

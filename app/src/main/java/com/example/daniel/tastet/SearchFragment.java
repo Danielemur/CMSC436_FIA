@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,42 +109,43 @@ public class SearchFragment extends Fragment {
                     String hashKey = child.getKey();
                     Map<String, Object> store = (Map<String, Object>) child.getValue();
 
-                    try {
+                    String storeName = store.get("Name").toString();
+                    String storeAddress = store.get("Address").toString();
+                    String storeType = store.get("Store Type").toString();
 
-                        String storeName = store.get("Name").toString();
-                        String storeAddress = store.get("Address").toString();
-                        String storeType = store.get("Store Type").toString();
+                    ArrayList<Review> list_of_reviews = new ArrayList<Review>();
+                    if (store.containsKey("Reviews")) {
+                        List<Map<String, Object>> reviews = (List<Map<String, Object>>) store.get("Reviews");
 
-                        ArrayList<Review> list_of_reviews = new ArrayList<Review>();
-                        if (store.containsKey("Reviews")) {
-                            List<Map<String, Object>> reviews = (List<Map<String, Object>>) store.get("Reviews");
+                        for (Map<String, Object> review : reviews) {
+                            Log.i(TAG, "\n\n\nreview\n\n\n");
+                            String title = review.get("Title").toString();
+                            String user = review.get("Name").toString();
+                            float overall = Float.parseFloat(review.get("Overall").toString());
+                            float freshness = Float.parseFloat(review.get("Freshness").toString());
+                            float taste = Float.parseFloat(review.get("Taste").toString());
+                            float price = Float.parseFloat(review.get("Price").toString());
+                            String text = review.get("Body").toString();
 
-                            for (Map<String, Object> review : reviews) {
-                                String title = review.get("Title").toString();
-                                String user = review.get("Name").toString();
-                                float overall = Float.parseFloat(review.get("Overall").toString());
-                                float freshness = Float.parseFloat(review.get("Freshness").toString());
-                                float taste = Float.parseFloat(review.get("Taste").toString());
-                                float price = Float.parseFloat(review.get("Price").toString());
-                                String text = review.get("Body").toString();
-
-                                String pattern = "EEE MMM dd HH:mm:ss zzz yyyy";
-                                SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.US);
-                                Date date = dateFormat.parse((String) review.get("Date"));
-
-                                Review reviewObj = new Review(title, user, overall, freshness, taste, price, text, storeName, date);
-
-                                list_of_reviews.add(reviewObj);
-                                customAdapter.notifyDataSetChanged();
+                            String pattern = "EEE MMM dd HH:mm:ss zzz yyyy";
+                            SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.US);
+                            Date date;
+                            try {
+                                date = dateFormat.parse((String) review.get("Date"));
+                            } catch (ParseException e) {
+                                date = new Date();
                             }
-                        }
-                        //create a store
-                        Store storeObj = new Store(storeName, storeAddress, storeType, list_of_reviews, hashKey);
 
-                        list_of_stores.add(storeObj);
-                    } catch (Exception e) {
-                        Log.i(TAG, "ASDF " + e.toString());
+                            Review reviewObj = new Review(title, user, overall, freshness, taste, price, text, storeName, date);
+
+                            list_of_reviews.add(reviewObj);
+                            customAdapter.notifyDataSetChanged();
+                        }
                     }
+                    //create a store
+                    Store storeObj = new Store(storeName, storeAddress, storeType, list_of_reviews, hashKey);
+
+                    list_of_stores.add(storeObj);
                 }
                 Log.i(TAG, "finished adding stores :" + list_of_stores.size());
 
