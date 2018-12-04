@@ -42,6 +42,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -94,7 +96,7 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
         polls.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (sharedPref.getBoolean("notification_key", true) == false){
+                if (sharedPref.getBoolean("notification_key", true) == false) {
                     return;
                 }
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
@@ -111,14 +113,13 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                         LatLng ltlng = new LatLng(38.9897, -76.9378);
                         String streetAdd = sharedPref.getString("default_location_key", "");
                         String storeName;
-                        int numReview = -1;
                         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.US);
 
                         Map<String, Object> hash = (Map<String, Object>) child.getValue();
                         if (hash.containsKey("Name")) {
                             storeName = (String) hash.get("Name");
                         } else {
-                            break;
+                            continue;
                         }
                         if (hash.containsKey("Address")) {
                             storeAddress = (String) hash.get("Address");
@@ -129,10 +130,32 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                                     storeLatLng = new LatLng(strAddress.getLatitude(), strAddress.getLongitude());
                                 }
                             } catch (Exception e) {
-                                break;
+                                continue;
                             }
                         } else {
-                            break;
+                            continue;
+                        }
+                        Log.d("CHECeeeeK", "CHECKING");
+
+                        if (hash.containsKey("Reviews")) {
+                            Log.d("YES","NONOOO");
+                            List<Map<String, Object>> reviews = (List<Map<String, Object>>) hash.get("Reviews");
+                            boolean foundTime = false;
+                            for (Map<String, Object> review : reviews) {
+                                String pattern = "EEE MMM DD HH:MM:SS ZZZ yyyy";
+                                SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.US);
+                                Date date = dateFormat.parse((String) review.get("Date"));
+                                if (new Date().getTime() - date.getTime() <= 20000) {
+                                    foundTime = true;
+                                    break;
+                                }
+                            }
+                            // No Recent Reviews
+                            if (!foundTime){
+                                continue;
+                            }
+                        } else {
+                            continue;
                         }
                         Log.d("CHECK", "CHECKING");
 
@@ -183,18 +206,10 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
 
                         float dist = (float) (storeLoc.distanceTo(currLoc) / 1609.344);
 
-                        if (hash.containsKey("Reviews")) {
-                            numReview = ((HashMap<Object, Object>[]) hash.get("Reviews")).length;
-                        }
-                        // If dist < 10 miles, put notification
+                        // If dist <= 10 miles, put notification
                         if (dist <= 10) {
-                            if (numReview == 0 || numReview == -1) {
-                                notifString = "New store " + storeName + " added!";
-                                Log.d("STORE", storeName);
-                            } else {
-                                notifString = "New review for " + storeName + " added!";
-                                Log.d("REVIEW", storeName);
-                            }
+                            notifString = "New review for " + storeName + " added!";
+                            Log.d("REVIEW", storeName);
 
                             NotificationManager mNotificationManager =
                                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -215,6 +230,7 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                                     .setCustomContentView(contentView);
                             mNotificationManager.notify(1,
                                     notificationBuilder.build());
+                            break;
                         }
                     } catch (Exception e) {
                         Log.d("ERROR", e.getMessage());
