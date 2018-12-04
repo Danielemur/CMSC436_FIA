@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+
 public class ReviewPageActivity extends Activity {
     private Review data;
 
@@ -29,7 +31,14 @@ public class ReviewPageActivity extends Activity {
 
         reviewStoreNameView.setText(data.getStoreName());
         reviewTitleUserView.setText(data.getTitle() + " by " + data.getUser());
-        reviewDateView.setText(data.getDate().toString());
+
+        String pattern_time = "HH:mma";
+        String pattern_date = "EEEEEEEEE, MMM. d, yyyy";
+        SimpleDateFormat timeFormat = new SimpleDateFormat(pattern_time);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern_date);
+
+        String dateStr = timeFormat.format(data.getDate()) + " on " + dateFormat.format(data.getDate());
+        reviewDateView.setText(dateStr);
         reviewOverallRatingView.setRating(data.getOverallRating());
         reviewFreshnessRatingView.setRating(data.getFreshnessRating());
         reviewTasteRatingView.setRating(data.getTasteRating());
