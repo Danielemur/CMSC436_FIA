@@ -16,6 +16,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.google.android.gms.location.places.GeoDataClient;
@@ -128,21 +131,61 @@ public class MapsFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         for (DataSnapshot child : snapshot.getChildren()) {
-                            try {
-                                Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.US);
-                                Map<String, Object> hash = (Map<String, Object>) child.getValue();
-                                if (hash.containsKey(NavigatorActivity.ADDRESS_KEY)) {
-                                    List<Address> results = geocoder.getFromLocationName((String) hash.get(NavigatorActivity.ADDRESS_KEY), 1);
-                                    if (results.size() != 0) {
-                                        address = results.get(0);
-                                        LatLng lt_lng = new LatLng(address.getLatitude(), address.getLongitude());
-                                        googleMap.addMarker(new MarkerOptions()
-                                                .position(lt_lng)
-                                                .title((String) hash.get(NavigatorActivity.NAME_KEY)));
-                                    }
-                                }
-                            } catch (Exception e) {
 
+
+                            if (!(child.getValue() instanceof Map)) {
+                                continue;
+                            }
+                            String hashKey = child.getKey();
+                            Map<String, Object> store = (Map<String, Object>) child.getValue();
+
+                            String storeName = store.get("Name").toString();
+                            String storeAddress = store.get("Address").toString();
+                            String storeType = store.get("Store Type").toString();
+
+                            ArrayList<Review> list_of_reviews = new ArrayList<Review>();
+                            if (store.containsKey("Reviews")) {
+                                List<Map<String, Object>> reviews = (List<Map<String, Object>>) store.get("Reviews");
+
+                                for (Map<String, Object> review : reviews) {
+                                    String title = review.get("Title").toString();
+                                    String user = review.get("Name").toString();
+                                    float overall = Float.parseFloat(review.get("Overall").toString());
+                                    float freshness = Float.parseFloat(review.get("Freshness").toString());
+                                    float taste = Float.parseFloat(review.get("Taste").toString());
+                                    float price = Float.parseFloat(review.get("Price").toString());
+                                    String text = review.get("Body").toString();
+
+                                    String pattern = "EEE MMM dd HH:mm:ss zzz yyyy";
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.US);
+                                    Date date;
+                                    try {
+                                        date = dateFormat.parse((String) review.get("Date"));
+                                    } catch (ParseException e) {
+                                        date = new Date();
+                                    }
+
+                                    Review reviewObj = new Review(title, user, overall, freshness, taste, price, text, storeName, date);
+
+                                    list_of_reviews.add(reviewObj);
+                                }
+                            }
+                            //create a store
+                            Store storeObj = new Store(storeName, storeAddress, storeType, list_of_reviews, hashKey);
+
+                            Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.US);
+                            List<Address> results;
+                            try {
+                                results = geocoder.getFromLocationName(storeObj.getLocationAddress(), 1);
+                            } catch (IOException e) {
+                                results = new ArrayList<Address>();
+                            }
+                            if (results.size() != 0) {
+                                address = results.get(0);
+                                LatLng lt_lng = new LatLng(address.getLatitude(), address.getLongitude());
+                                googleMap.addMarker(new MarkerOptions()
+                                        .position(lt_lng)
+                                        .title(storeObj.getLocationName()));
                             }
                         }
                     }

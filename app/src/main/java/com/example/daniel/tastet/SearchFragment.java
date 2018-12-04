@@ -148,7 +148,7 @@ public class SearchFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                Store data =  (Store) adapterView.getItemAtPosition(i);
+                Store data = (Store) adapterView.getItemAtPosition(i);
 
                 Intent storePage = new Intent(SearchFragment.this.getContext(), StorePageActivity.class);
                 data.packageIntent(storePage);
