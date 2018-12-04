@@ -71,17 +71,9 @@ public class SearchFragment extends Fragment {
                     matchedStores.clear();
                     customAdapter.notifyDataSetChanged();
                     for (Store store : list_of_stores) {
-
-                        if (store.getLocationName().contains(storeQuery)) {
-                            matchedStores.add(store);
-
-                            Log.i(TAG, "added store +" + store.getLocationName());
-                            customAdapter.notifyDataSetChanged();
-                        } else if (store.getLocationAddress().contains(storeQuery)) {
-                            matchedStores.add(store);
-                            Log.i(TAG, "added store +" + store.getLocationName());
-                            customAdapter.notifyDataSetChanged();
-                        } else if (store.getLocationType().contains(storeQuery)) {
+                        if (store.getLocationName().contains(storeQuery) ||
+                                store.getLocationAddress().contains(storeQuery) ||
+                                store.getLocationType().contains(storeQuery)) {
                             matchedStores.add(store);
                             Log.i(TAG, "added store +" + store.getLocationName());
                             customAdapter.notifyDataSetChanged();

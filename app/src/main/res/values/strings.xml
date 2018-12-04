@@ -60,9 +60,9 @@
     <string name="store_type">Store Type</string>
 
     <string name="overall_rating">Overall</string>
-    <string name="freshness">Freshness</string>
-    <string name="taste">Taste</string>
-    <string name="price">Price</string>
+    <string name="freshness_rating">Freshness</string>
+    <string name="taste_rating">Taste</string>
+    <string name="price_rating">Price</string>
     <string name="comments">Comments</string>
 
 

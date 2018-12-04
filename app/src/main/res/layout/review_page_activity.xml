@@ -5,37 +5,11 @@
     android:orientation="vertical"
     android:theme="@style/LightTheme">
 
-    <!-- <TextView
-         android:id="@+id/add_store_title"
-         android:layout_width="wrap_content"
-         android:layout_height="20dp"
-         android:layout_marginBottom="4dp"
-         android:layout_marginTop="4dp"
-         android:text="@string/add_store_title"
-         android:textAppearance="?android:attr/textAppearanceLarge"
-         android:textStyle="bold"
-         android:textColor="#000000"
-     />-->
-
-    <!-- Location Name -->
-
-   <!-- <TextView
-        android:id="@+id/store_name"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-
-        android:text="@string/store_name"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold"
-        android:textColor="#000000"
-
-        />-->
-
 
     <TextView
-        android:id="@+id/store_name_entry"
+        android:id="@+id/review_page_store_name"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textColor="#000000"/>
 
@@ -54,9 +28,9 @@
         />-->
 
     <TextView
-        android:id="@+id/add_store_address_entry"
+        android:id="@+id/review_page_title_user"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textColor="#000000"/>
 
@@ -76,20 +50,14 @@
         />-->
 
     <TextView
-        android:id="@+id/store_type_entry"
+        android:id="@+id/review_page_date"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textColor="#000000"/>
 
-
-
-
-
-
-
     <TextView
-        android:id="@+id/review_overall"
+        android:id="@+id/review_page_overall"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
 
@@ -100,7 +68,7 @@
         />
 
     <android.support.v7.widget.AppCompatRatingBar
-        android:id="@+id/overallRatingBar"
+        android:id="@+id/review_page_overall_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -110,18 +78,18 @@
 
 
     <TextView
-        android:id="@+id/review_freshness"
+        android:id="@+id/review_page_freshness"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
 
-        android:text="@string/freshness"
+        android:text="@string/freshness_rating"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:textColor="#000000"
         />
 
     <android.support.v7.widget.AppCompatRatingBar
-        android:id="@+id/freshnessRatingBar"
+        android:id="@+id/review_page_freshness_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -131,17 +99,17 @@
 
 
     <TextView
-        android:id="@+id/review_Taste"
+        android:id="@+id/review_page_taste"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:text="@string/taste"
+        android:text="@string/taste_rating"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:textColor="#000000"
         />
 
     <android.support.v7.widget.AppCompatRatingBar
-        android:id="@+id/tasteRatingBar"
+        android:id="@+id/review_page_taste_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -151,18 +119,18 @@
 
 
     <TextView
-        android:id="@+id/review_price"
+        android:id="@+id/review_page_price"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
 
-        android:text="@string/price"
+        android:text="@string/price_rating"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:textColor="#000000"
         />
 
     <android.support.v7.widget.AppCompatRatingBar
-        android:id="@+id/priceRatingBar"
+        android:id="@+id/review_page_price_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -183,7 +151,7 @@
         />
 
     <TextView
-        android:id="@+id/review_comment"
+        android:id="@+id/review_page_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 

@@ -22,6 +22,7 @@ import java.util.UUID;
 public class StorePageActivity extends Activity {
     private static final int ADD_REVIEW_REQUEST = 1;
     private Store data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
