@@ -2,6 +2,7 @@ package com.example.daniel.tastet;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import java.util.*;
 
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.*;
 
@@ -183,9 +185,10 @@ public class MapsFragment extends Fragment {
                             if (results.size() != 0) {
                                 address = results.get(0);
                                 LatLng lt_lng = new LatLng(address.getLatitude(), address.getLongitude());
-                                googleMap.addMarker(new MarkerOptions()
+                                Marker marker = googleMap.addMarker(new MarkerOptions()
                                         .position(lt_lng)
                                         .title(storeObj.getLocationName()));
+                                marker.setTag(storeObj);
                             }
                         }
                     }
@@ -196,6 +199,16 @@ public class MapsFragment extends Fragment {
                     }
                 });
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ltlng, zoom));
+                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        Store storeData = (Store) marker.getTag();
+                        Intent storePage = new Intent(MapsFragment.this.getContext(), StorePageActivity.class);
+                        storeData.packageIntent(storePage);
+                        MapsFragment.this.getActivity().startActivity(storePage);
+                        return true;
+                    }
+                });
             }
         });
 

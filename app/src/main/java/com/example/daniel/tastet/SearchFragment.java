@@ -93,7 +93,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-
+                list_of_stores.clear();
                 for (DataSnapshot child : snapshot.getChildren()) {
                     if (!(child.getValue() instanceof Map)) {
                         continue;
