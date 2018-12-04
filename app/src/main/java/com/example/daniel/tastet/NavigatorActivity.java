@@ -51,7 +51,6 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
 
     public static final String TAG = "TasteT";
     private static final int ADD_STORE_REQUEST = 0;
-    private static final int ADD_REVIEW_REQUEST = 1;
 
 
     private Fragment currentFragment = null;
@@ -248,11 +247,6 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                 //open new location activity
                 break;
             }
-            case R.id.add_review: {
-                Intent addReview = new Intent(this, AddReviewActivity.class);
-                this.startActivityForResult(addReview, ADD_REVIEW_REQUEST);
-                break;
-            }
 
         }
         return super.onOptionsItemSelected(item);
@@ -277,28 +271,6 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                     result.put("Name", locationName);
                     result.put("Address", locationAddress);
                     result.put("Store Type", locationType);
-                    myRef.setValue(result);
-                    break;
-                }case ADD_REVIEW_REQUEST: {
-                    String reviewTitle = data.getStringExtra(AddReviewActivity.REVIEW_TITLE).toString();
-                    String reviewUser = data.getStringExtra(AddReviewActivity.REVIEW_USER).toString();
-                    float reviewOverall = data.getFloatExtra(AddReviewActivity.REVIEW_OVERALL, 5);
-                    float reviewFreshness = data.getFloatExtra(AddReviewActivity.REVIEW_FRESHNESS, 5);
-                    float reviewTaste = data.getFloatExtra(AddReviewActivity.REVIEW_TASTE, 5);
-                    float reviewPrice = data.getFloatExtra(AddReviewActivity.REVIEW_PRICE, 5);
-                    String reviewText = data.getStringExtra(AddReviewActivity.REVIEW_TEXT).toString();
-                    String idOne = UUID.randomUUID().toString();
-                    DatabaseReference myRef = database.getReference(idOne);
-                    Map<String, Object> result = new HashMap<>();
-                    Map<String, String> reviews = new HashMap<>();
-                    result.put("Name", reviewTitle);
-                    reviews.put("Overall", Float.toString(reviewOverall));
-                    reviews.put("Freshness", Float.toString(reviewFreshness));
-                    reviews.put("Price", Float.toString(reviewPrice));
-                    reviews.put("Taste", Float.toString(reviewTaste));
-                    reviews.put("Author", reviewUser);
-                    reviews.put("Body", reviewText);
-                    result.put("Reviews", reviews);
                     myRef.setValue(result);
                     break;
                 }

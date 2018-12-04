@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class StorePageActivity extends Activity {
@@ -34,26 +35,27 @@ public class StorePageActivity extends Activity {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             switch(requestCode) {
                 case ADD_REVIEW_REQUEST: {
-                    String reviewTitle = data.getStringExtra(AddReviewActivity.REVIEW_TITLE);
-                    String reviewUser = data.getStringExtra(AddReviewActivity.REVIEW_USER);
-                    Float reviewOverall = data.getFloatExtra(AddReviewActivity.REVIEW_OVERALL, 0f);
-                    Float reviewFreshness = data.getFloatExtra(AddReviewActivity.REVIEW_FRESHNESS, 0f);
-                    Float reviewTaste = data.getFloatExtra(AddReviewActivity.REVIEW_TASTE, 0f);
-                    Float reviewPrice = data.getFloatExtra(AddReviewActivity.REVIEW_PRICE, 0f);
-                    String reviewText = data.getStringExtra(AddReviewActivity.REVIEW_TEXT);
-
-                    // TODO: replace this AddStore stuff with AddReview Stuff
+                    String reviewTitle = data.getStringExtra(AddReviewActivity.REVIEW_TITLE).toString();
+                    String reviewUser = data.getStringExtra(AddReviewActivity.REVIEW_USER).toString();
+                    float reviewOverall = data.getFloatExtra(AddReviewActivity.REVIEW_OVERALL, 3);
+                    float reviewFreshness = data.getFloatExtra(AddReviewActivity.REVIEW_FRESHNESS, 3);
+                    float reviewTaste = data.getFloatExtra(AddReviewActivity.REVIEW_TASTE, 3);
+                    float reviewPrice = data.getFloatExtra(AddReviewActivity.REVIEW_PRICE, 3);
+                    String reviewText = data.getStringExtra(AddReviewActivity.REVIEW_TEXT).toString();
                     String idOne = UUID.randomUUID().toString();
                     DatabaseReference myRef = database.getReference(idOne);
-                    HashMap<String, Object> result = new HashMap<>();
-                    result.put("Name", "CVS");
-                    result.put("Address", "College Park, MD");
-                    result.put("Store Type", "Convenience Store");
-
+                    Map<String, Object> result = new HashMap<>();
+                    Map<String, String> reviews = new HashMap<>();
+                    result.put("Name", reviewTitle);
+                    reviews.put("Overall", Float.toString(reviewOverall));
+                    reviews.put("Freshness", Float.toString(reviewFreshness));
+                    reviews.put("Price", Float.toString(reviewPrice));
+                    reviews.put("Taste", Float.toString(reviewTaste));
+                    reviews.put("Author", reviewUser);
+                    reviews.put("Body", reviewText);
+                    result.put("Reviews", reviews);
                     myRef.setValue(result);
-
-                    DatabaseReference myRef2 = database.getReference("Location");
-                    myRef2.setValue("Hello, World! Add Review");
+                    break;
                 }
             }
 
