@@ -57,6 +57,8 @@ public class HomeFragment extends Fragment {
                     if(!(child.getValue() instanceof Map)){
                         continue;
                     }
+                    list_of_reviews.clear();
+                    customAdapter.notifyDataSetChanged();
                     Map<String, Object> hash = (Map<String, Object>) child.getValue();
 
                     try {

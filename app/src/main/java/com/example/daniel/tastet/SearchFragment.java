@@ -67,6 +67,7 @@ public class SearchFragment extends Fragment {
 
                     //query based on result
                     matchedStores.clear();
+                    customAdapter.notifyDataSetChanged();
                     for (Store store : list_of_stores) {
 
                         if (store.getLocationName().contains(storeQuery)) {
