@@ -11,7 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textColor="#000000"/>
+        android:textColor="#000000"
+        android:textSize="40dp"
+        android:background="@color/store_page_activity_background"/>
+
 
 
     <!-- Location Address -->
@@ -32,7 +35,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textColor="#000000"/>
+        android:textColor="#000000"
+        android:textSize="20dp"
+
+    android:background="@color/store_page_activity_background"/>
+        />
 
 
 
@@ -54,7 +61,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textColor="#000000"/>
+        android:textColor="#000000"
+        android:layout_marginBottom="10dp"
+        android:background="@color/store_page_activity_background"/>
+    />
 
     <TextView
         android:id="@+id/review_page_overall"
@@ -136,11 +146,12 @@
         android:layout_alignParentStart="true"
         android:isIndicator="true"
         android:layout_marginStart="0dp"
-        android:theme="@style/RatingBar" />
+        android:theme="@style/RatingBar"
+        android:layout_marginBottom="10dp"/>
 
     <TextView
         android:id="@+id/comments"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="30dp"
 
         android:text="@string/comments"
@@ -148,17 +159,21 @@
         android:textStyle="bold"
         android:textColor="#000000"
 
+        android:background="@color/store_page_activity_background"
+        android:textAlignment="textStart"
         />
 
     <TextView
         android:id="@+id/review_page_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
 
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold"
         android:textColor="#000000"
         android:singleLine="false"
+
+        android:background="@color/store_page_activity_background"
+        android:textAlignment="textStart"
         />
 
 
