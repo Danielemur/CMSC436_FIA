@@ -91,13 +91,12 @@ public class SearchFragment extends Fragment {
                 return true;
             }
         });
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference polls = database.getReference();
         polls.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
+            public void onCancelled(DatabaseError databaseError) {}
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -111,44 +110,36 @@ public class SearchFragment extends Fragment {
 
                     try {
 
-                        String address = store.get("Address").toString();
-                        String name = store.get("Name").toString();
-                        String type = store.get("Store Type").toString();
-                        float rating = 0;
-                        if (store.get("Store Rating") != null) {
-                            rating = (float) store.get("Store Rating");
-                        }
-                        String storeName = (String) store.get("Name");
-                        if (storeName == null) {
-                            storeName = "N/A";
-                        }
-                        List<Review> list_of_reviews = new ArrayList<Review>();
+                        String storeName = store.get("Name").toString();
+                        String storeAddress = store.get("Address").toString();
+                        String storeType = store.get("Store Type").toString();
+
+                        ArrayList<Review> list_of_reviews = new ArrayList<Review>();
                         if (store.containsKey("Reviews")) {
                             List<Map<String, Object>> reviews = (List<Map<String, Object>>) store.get("Reviews");
 
                             for (Map<String, Object> review : reviews) {
-                                int price = Integer.parseInt(review.get("Price").toString());
-                                int freshness = Integer.parseInt(review.get("Freshness").toString());
-                                int overall = Integer.parseInt(review.get("Overall").toString());
-                                Log.i(TAG, "price freshness overall" + price + " " + freshness + " " + overall);
+                                String title = review.get("Title").toString();
+                                String user = review.get("Name").toString();
+                                float overall = Float.parseFloat(review.get("Overall").toString());
+                                float freshness = Float.parseFloat(review.get("Freshness").toString());
+                                float taste = Float.parseFloat(review.get("Taste").toString());
+                                float price = Float.parseFloat(review.get("Price").toString());
+                                String text = review.get("Body").toString();
+
                                 String pattern = "EEE MMM DD HH:MM:SS ZZZ yyyy";
                                 SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.US);
                                 Date date = dateFormat.parse((String) review.get("Date"));
-                                String review_body = review.get("Body").toString();
-                                String cut_off_review = "";
-                                if (review_body.length() > 15) {
-                                    cut_off_review = review_body.substring(0, 15) + "...";
-                                } else {
-                                    cut_off_review = review_body;
-                                }
-                                String review_to_display = store + ":" + " Rating: " + overall + " stars" + cut_off_review;
-                                Review reviewObj = new Review(overall, review_body, date, price, storeName, review_to_display);
+
+                                Review reviewObj = new Review(title, user, overall, freshness, taste, price, text, storeName, date);
+
                                 list_of_reviews.add(reviewObj);
                                 customAdapter.notifyDataSetChanged();
                             }
                         }
                         //create a store
-                        Store storeObj = new Store(name, address, type, rating, hashKey, list_of_reviews);
+                        Store storeObj = new Store(storeName, storeAddress, storeType, list_of_reviews, hashKey);
+
                         list_of_stores.add(storeObj);
                     } catch (Exception e) {
                         Log.i(TAG, "ASDF " + e.toString());
@@ -158,15 +149,16 @@ public class SearchFragment extends Fragment {
 
             }
         });
+
         ListView listView = view.findViewById(R.id.list_of_stores);
         listView.setAdapter(customAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                Store s =  ((Store) adapterView.getItemAtPosition(i));
+                Store data =  ((Store) adapterView.getItemAtPosition(i));
 
                 Intent storePage = new Intent(SearchFragment.this.getContext(), StorePageActivity.class);
-                s.packageIntent(storePage);
+                data.packageIntent(storePage);
                 SearchFragment.this.getActivity().startActivity(storePage);
             }
         });
@@ -200,7 +192,7 @@ public class SearchFragment extends Fragment {
             reviewBoldTitleTextView.setText(thisStore.getLocationName());
             //TextView reviewTextView = view.findViewById(R.id.singleReview);
             AppCompatRatingBar ratingBar = view.findViewById(R.id.storeRatingBar);
-            ratingBar.setRating(thisStore.getRating());
+            ratingBar.setRating(thisStore.getOverallRating());
             //ratingBar.setEnabled(false);
 
             return view;

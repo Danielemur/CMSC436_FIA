@@ -20,65 +20,39 @@
     <!-- Location Name -->
 
     <TextView
-        android:id="@+id/store_name"
+        android:id="@+id/store_page_name"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-
-        android:text="@string/store_name"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:textColor="#000000"
 
         />
-
-    <TextView
-        android:id="@+id/store_name_entry"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="GET VALUES FROM USER, DELETE THIS IN XML" />
 
     <!-- Location Address -->
 
     <TextView
-        android:id="@+id/store_address"
+        android:id="@+id/store_page_address"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-
-        android:text="@string/store_location"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:textColor="#000000"
         />
-
-    <TextView
-        android:id="@+id/store_address_entry"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="GET VALUES FROM USER, DELETE THIS IN XML"/>
 
     <!-- Location Type -->
 
     <TextView
-        android:id="@+id/store_type"
+        android:id="@+id/store_page_type"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-
-        android:text="@string/store_type"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:textColor="#000000"
         />
 
     <TextView
-        android:id="@+id/store_type_entry"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="GET VALUES FROM USER, DELETE THIS IN XML"/>
-
-
-
-    <TextView
-        android:id="@+id/review_overall"
+        android:id="@+id/store_page_overall"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
 
@@ -89,7 +63,7 @@
         />
 
     <android.support.v7.widget.AppCompatRatingBar
-        android:id="@+id/store_overall_rating"
+        android:id="@+id/store_page_overall_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -98,8 +72,8 @@
         android:theme="@style/RatingBar" />
 
 
-<!--    <TextView
-        android:id="@+id/review_freshness"
+    <TextView
+        android:id="@+id/store_page_freshness"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
 
@@ -110,7 +84,7 @@
         />
 
     <android.support.v7.widget.AppCompatRatingBar
-        android:id="@+id/freshnessRatingBar"
+        android:id="@+id/store_page_freshness_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -120,7 +94,7 @@
 
 
     <TextView
-        android:id="@+id/review_Taste"
+        android:id="@+id/store_page_taste"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:text="Taste"
@@ -130,7 +104,7 @@
         />
 
     <android.support.v7.widget.AppCompatRatingBar
-        android:id="@+id/tasteRatingBar"
+        android:id="@+id/store_page_taste_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -140,7 +114,7 @@
 
 
     <TextView
-        android:id="@+id/review_price"
+        android:id="@+id/store_page_price"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
 
@@ -151,12 +125,12 @@
         />
 
     <android.support.v7.widget.AppCompatRatingBar
-        android:id="@+id/priceRatingBar"
+        android:id="@+id/store_page_price_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:isIndicator="true"
         android:layout_marginStart="0dp"
-        android:theme="@style/RatingBar" />-->
+        android:theme="@style/RatingBar" />
 
 </LinearLayout>

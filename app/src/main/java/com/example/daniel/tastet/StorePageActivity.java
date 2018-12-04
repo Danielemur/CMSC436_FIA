@@ -30,16 +30,21 @@ public class StorePageActivity extends Activity {
         data = new Store(this.getIntent());
 
 
-        TextView storeNameView = this.findViewById(R.id.store_name_entry);
-        TextView storeAddressView = this.findViewById(R.id.store_address_entry);
-        TextView storeTypeView = this.findViewById(R.id.store_type_entry);
-        RatingBar storeRatingView = this.findViewById(R.id.store_overall_rating);
+        TextView storeNameView = this.findViewById(R.id.store_page_name);
+        TextView storeAddressView = this.findViewById(R.id.store_page_address);
+        TextView storeTypeView = this.findViewById(R.id.store_page_type);
+        RatingBar storeOverallRatingView = this.findViewById(R.id.store_page_overall_rating);
+        RatingBar storeFreshnessRatingView = this.findViewById(R.id.store_page_freshness_rating);
+        RatingBar storeTasteRatingView = this.findViewById(R.id.store_page_taste_rating);
+        RatingBar storePriceRatingView = this.findViewById(R.id.store_page_price_rating);
 
         storeNameView.setText(data.getLocationName());
         storeAddressView.setText(data.getLocationAddress());
         storeTypeView.setText(data.getLocationType());
-        //TODO
-        storeRatingView.setRating(3.5f);
+        storeOverallRatingView.setRating(data.getOverallRating());
+        storeFreshnessRatingView.setRating(data.getFreshnessRating());
+        storeTasteRatingView.setRating(data.getTasteRating());
+        storePriceRatingView.setRating(data.getPriceRating());
 
     }
 
@@ -75,14 +80,14 @@ public class StorePageActivity extends Activity {
                                                                  ArrayList<HashMap<String,Object>> reviews = (ArrayList<HashMap<String,Object>>) currentStore.get("Reviews");
                                                                  HashMap<String,Object> newReview = new HashMap<String,Object>();
 
-                                                                 newReview.put("Body",reviewText);
-                                                                 newReview.put("Date",new java.util.Date().toString());
-                                                                 newReview.put("Freshness",reviewFreshness);
+                                                                 newReview.put("Title",reviewTitle);
                                                                  newReview.put("Name",reviewUser);
                                                                  newReview.put("Overall",reviewOverall);
-                                                                 newReview.put("Price",reviewPrice);
+                                                                 newReview.put("Freshness",reviewFreshness);
                                                                  newReview.put("Taste",reviewTaste);
-                                                                 newReview.put("Title",reviewTitle);
+                                                                 newReview.put("Price",reviewPrice);
+                                                                 newReview.put("Body",reviewText);
+                                                                 newReview.put("Date",new java.util.Date().toString());
 
                                                                  reviews.add(newReview);
                                                                  currentStore.put("Reviews", reviews);
