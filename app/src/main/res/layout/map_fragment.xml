@@ -10,7 +10,7 @@
         android:padding="10dp"
         android:layout_width="match_parent"
         android:inputType="text"
-        android:hint="Search by Address..."/>
+        android:hint="@string/map_search_text_hint"/>
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapview"
