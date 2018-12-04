@@ -54,4 +54,14 @@
         <item>25</item>
     </string-array>
 
+    <string name="store_name">Store Name</string>
+    <string name="store_location">Store Location</string>
+    <string name="store_type">Store Type</string>
+
+    <string name="overall_rating">Overall</string>
+    <string name="freshness">Freshness</string>
+    <string name="taste">Taste</string>
+    <string name="price">Price</string>
+
+
 </resources>
