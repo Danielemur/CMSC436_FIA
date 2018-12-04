@@ -52,13 +52,12 @@ public class HomeFragment extends Fragment {
         polls.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-
+                list_of_reviews.clear();
+                customAdapter.notifyDataSetChanged();
                 for (DataSnapshot child : snapshot.getChildren()) {
                     if(!(child.getValue() instanceof Map)){
                         continue;
                     }
-                    list_of_reviews.clear();
-                    customAdapter.notifyDataSetChanged();
                     Map<String, Object> hash = (Map<String, Object>) child.getValue();
 
                     try {
@@ -88,13 +87,13 @@ public class HomeFragment extends Fragment {
                                 String review_to_display = storeName + ":" + " Rating: " + overall + " stars" +  cut_off_review;
                                 Review reviewObj = new Review(overall,review_body,date,price,storeName,review_to_display);
                                 list_of_reviews.add(reviewObj);
-                                customAdapter.notifyDataSetChanged();
                             }
                         }
                     } catch (Exception e) {
 
                     }
                 }
+                customAdapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
