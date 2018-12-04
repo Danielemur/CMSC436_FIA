@@ -133,4 +133,12 @@
         android:layout_marginStart="0dp"
         android:theme="@style/RatingBar" />
 
+    <Button
+        android:id="@+id/review_button"
+        android:layout_width="fill_parent"
+        android:layout_height="150px"
+        android:onClick="launchAddReviewActivity"
+        android:text="Add Review" />
+    />
+
 </LinearLayout>

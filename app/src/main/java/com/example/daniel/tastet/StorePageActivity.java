@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -47,14 +49,16 @@ public class StorePageActivity extends Activity {
         storeTasteRatingView.setRating(data.getTasteRating());
         storePriceRatingView.setRating(data.getPriceRating());
 
+        Button newReviewButton = this.findViewById(R.id.review_button);
+        newReviewButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent addReview = new Intent(StorePageActivity.this, AddReviewActivity.class);
+                startActivityForResult(addReview, ADD_REVIEW_REQUEST);
+            }
+        });
+
     }
 
-
-  /*          case R.id.add_review:
-    Intent addReview = new Intent(this, AddReviewActivity.class);
-                this.startActivityForResult(addReview, ADD_REVIEW_REQUEST);
-    //open new location activity
-                break;*/
 
 
     @Override
@@ -100,18 +104,7 @@ public class StorePageActivity extends Activity {
                             System.out.println("The read failed: " + databaseError.getCode());
                         }
                     });
-
-                    Map<String, Object> result = new HashMap<>();
-                    Map<String, String> reviews = new HashMap<>();
-                    result.put("Name", reviewTitle);
-                    reviews.put("Overall", Float.toString(reviewOverall));
-                    reviews.put("Freshness", Float.toString(reviewFreshness));
-                    reviews.put("Price", Float.toString(reviewPrice));
-                    reviews.put("Taste", Float.toString(reviewTaste));
-                    reviews.put("Author", reviewUser);
-                    reviews.put("Body", reviewText);
-                    result.put("Reviews", reviews);
-                    myRef.setValue(result);
+                    
                     break;
                 }
             }
