@@ -14,15 +14,14 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        android:text="TextView"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/singleReview"
-        android:layout_width="137dp"
-        android:layout_height="63dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/ratingBar"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
@@ -32,7 +31,9 @@
         android:orientation="vertical"
         android:padding="16dp"
         android:textSize="16sp"
-        android:textStyle="italic"></TextView>
+        android:layout_gravity="fill"
+        android:baselineAligned="false"
+        android:textStyle="italic"/>
 
 
     <android.support.v7.widget.AppCompatRatingBar
