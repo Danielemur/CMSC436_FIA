@@ -2,6 +2,7 @@ package com.example.daniel.tastet;
 
 import java.util.Collections;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
         import android.support.annotation.NonNull;
         import android.support.annotation.Nullable;
@@ -153,12 +154,12 @@ public class HomeFragment extends Fragment {
 
         @Override
         public Object getItem(int i) {
-            return null;
+            return list_of_reviews.get(i);
         }
 
         @Override
         public long getItemId(int i) {
-            return 0;
+            return i;
         }
 
         @Override
