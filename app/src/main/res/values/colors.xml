@@ -10,4 +10,5 @@
     <!--<color name="colorBackground">#32A287</color>-->
     <color name="duskYellow">#FFDB1A</color>
     <color name="lightGrey">#A9A9A9</color>
+    <color name="store_page_activity_background">#FFE6E6</color>
 </resources>

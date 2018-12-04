@@ -33,6 +33,13 @@
         <item name="android:colorBackground">@color/colorBackground</item>
     </style>
 
+    <style name="CustomLightTheme" parent="Theme.AppCompat.Light.DarkActionBar" >
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/store_page_activity_background</item>
+    </style>
+
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlActivated">@color/duskYellow</item>
         <item name="colorControlNormal">@color/lightGrey</item>
