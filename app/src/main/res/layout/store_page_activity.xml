@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
 
-        android:text="Store Name"
+        android:text="@string/store_name"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:textColor="#000000"
@@ -35,7 +35,7 @@
         android:id="@+id/store_name_entry"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:text="get store name" />
+        android:text="GET VALUES FROM USER, DELETE THIS IN XML" />
 
     <!-- Location Address -->
 
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
 
-        android:text="Store Location"
+        android:text="@string/store_location"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:textColor="#000000"
@@ -54,7 +54,7 @@
         android:id="@+id/store_address_entry"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:text="get store address"/>
+        android:text="GET VALUES FROM USER, DELETE THIS IN XML"/>
 
     <!-- Location Type -->
 
@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
 
-        android:text="Store Type"
+        android:text="@string/store_type"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:textColor="#000000"
@@ -73,7 +73,7 @@
         android:id="@+id/store_type_entry"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:text="get store type"/>
+        android:text="GET VALUES FROM USER, DELETE THIS IN XML"/>
 
 
 
