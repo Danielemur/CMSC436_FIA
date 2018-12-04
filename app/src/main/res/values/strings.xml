@@ -23,7 +23,7 @@
         <item>Other</item>
     </string-array>
 
-    <string name="add_review_title">Add Review for </string>
+    <string name="add_review_title">Add Review</string>
     <string name="add_review_name">Review Title</string>
     <string name="add_review_name_entry">Enter a title for this post</string>
     <string name="add_review_user">Reviewer Name</string>

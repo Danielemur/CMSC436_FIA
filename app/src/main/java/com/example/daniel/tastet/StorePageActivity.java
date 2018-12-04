@@ -34,12 +34,15 @@ public class StorePageActivity extends Activity {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             switch(requestCode) {
                 case ADD_REVIEW_REQUEST: {
-                    String locationName = data.getStringExtra(AddStoreActivity.LOCATION_NAME);
-                    String locationAddress = data.getStringExtra(AddStoreActivity.LOCATION_ADDRESS);
-                    String locationType = data.getStringExtra(AddStoreActivity.LOCATION_TYPE);
-                    Log.i(NavigatorActivity.TAG, "Name: " + locationName + "\nAddress: " + locationAddress + "\nType: " + locationType);
+                    String reviewTitle = data.getStringExtra(AddReviewActivity.REVIEW_TITLE);
+                    String reviewUser = data.getStringExtra(AddReviewActivity.REVIEW_USER);
+                    Float reviewOverall = data.getFloatExtra(AddReviewActivity.REVIEW_OVERALL, 0f);
+                    Float reviewFreshness = data.getFloatExtra(AddReviewActivity.REVIEW_FRESHNESS, 0f);
+                    Float reviewTaste = data.getFloatExtra(AddReviewActivity.REVIEW_TASTE, 0f);
+                    Float reviewPrice = data.getFloatExtra(AddReviewActivity.REVIEW_PRICE, 0f);
+                    String reviewText = data.getStringExtra(AddReviewActivity.REVIEW_TEXT);
 
-
+                    // TODO: replace this AddStore stuff with AddReview Stuff
                     String idOne = UUID.randomUUID().toString();
                     DatabaseReference myRef = database.getReference(idOne);
                     HashMap<String, Object> result = new HashMap<>();
@@ -48,8 +51,6 @@ public class StorePageActivity extends Activity {
                     result.put("Store Type", "Convenience Store");
 
                     myRef.setValue(result);
-
-
 
                     DatabaseReference myRef2 = database.getReference("Location");
                     myRef2.setValue("Hello, World! Add Review");
