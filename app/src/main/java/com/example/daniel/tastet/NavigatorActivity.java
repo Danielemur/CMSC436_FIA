@@ -280,13 +280,13 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                     myRef.setValue(result);
                     break;
                 }case ADD_REVIEW_REQUEST: {
-                    String reviewTitle = data.getStringExtra(AddReviewActivity.REVIEW_TITLE.toString());
-                    String reviewUser = data.getStringExtra(AddReviewActivity.REVIEW_USER.toString());
+                    String reviewTitle = data.getStringExtra(AddReviewActivity.REVIEW_TITLE).toString();
+                    String reviewUser = data.getStringExtra(AddReviewActivity.REVIEW_USER).toString();
                     float reviewOverall = data.getFloatExtra(AddReviewActivity.REVIEW_OVERALL, 5);
                     float reviewFreshness = data.getFloatExtra(AddReviewActivity.REVIEW_FRESHNESS, 5);
                     float reviewTaste = data.getFloatExtra(AddReviewActivity.REVIEW_TASTE, 5);
                     float reviewPrice = data.getFloatExtra(AddReviewActivity.REVIEW_PRICE, 5);
-                    String reviewText = data.getStringExtra(AddReviewActivity.REVIEW_TEXT.toString());
+                    String reviewText = data.getStringExtra(AddReviewActivity.REVIEW_TEXT).toString();
                     String idOne = UUID.randomUUID().toString();
                     DatabaseReference myRef = database.getReference(idOne);
                     Map<String, Object> result = new HashMap<>();
