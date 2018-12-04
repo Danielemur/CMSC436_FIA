@@ -1,7 +1,9 @@
 package com.example.daniel.tastet;
 
+import java.text.ParseException;
 import java.util.Collections;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
         import android.support.annotation.NonNull;
@@ -29,7 +31,8 @@ import android.util.Log;
         import java.util.Locale;
         import java.util.Map;
 
-        import android.widget.BaseAdapter;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 
         import android.widget.ListView;
 
@@ -51,102 +54,69 @@ public class HomeFragment extends Fragment {
         DatabaseReference polls = database.getReference();
         polls.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
+            public void onCancelled(DatabaseError databaseError) {}
+            @Override
             public void onDataChange(DataSnapshot snapshot) {
+                // Clear any existing data
                 list_of_reviews.clear();
                 customAdapter.notifyDataSetChanged();
+
                 for (DataSnapshot child : snapshot.getChildren()) {
                     if(!(child.getValue() instanceof Map)){
                         continue;
                     }
-                    Map<String, Object> hash = (Map<String, Object>) child.getValue();
+                    Map<String, Object> store = (Map<String, Object>) child.getValue();
 
-                    try {
-                        String storeName =  (String)hash.get("Name");
-                        if(storeName == null){
-                            storeName = "N/A";
-                        }
-                        if(hash.containsKey("Reviews")){
-                            List<Map<String,Object>> reviews = (List<Map<String,Object>>)hash.get("Reviews");
+                        String storeName =  (String)store.get("Name");
+
+                        if(store.containsKey("Reviews")){
+                            List<Map<String,Object>> reviews = (List<Map<String,Object>>)store.get("Reviews");
 
                             for(Map<String,Object> review : reviews){
-                                int price = Integer.parseInt(review.get("Price").toString());
-                                int freshness = Integer.parseInt(review.get("Freshness").toString());
-                                int overall = Integer.parseInt(review.get("Overall").toString());
-                                Log.i(TAG,"price freshness overall" + price + " " + freshness + " " + overall);
+
+
+                                String title = review.get("Title").toString();
+                                String user = review.get("Name").toString();
+                                float overall = Float.parseFloat(review.get("Overall").toString());
+                                float freshness = Float.parseFloat(review.get("Freshness").toString());
+                                float taste = Float.parseFloat(review.get("Taste").toString());
+                                float price = Float.parseFloat(review.get("Price").toString());
+                                String text = review.get("Body").toString();
 
                                 String pattern = "EEE MMM dd HH:mm:ss zzz yyyy";
-                                SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.ENGLISH);
-                                Date date = dateFormat.parse((String) review.get("Date"));
-                                String review_body = review.get("Body").toString();
-                                String cut_off_review = "";
-                                if(review_body.length() > 15){
-                                    cut_off_review = review_body.substring(0,15) + "...";
-                                }else{
-                                    cut_off_review = review_body;
+                                SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.US);
+                                Date date;
+                                try {
+                                    date = dateFormat.parse((String) review.get("Date"));
+                                } catch (ParseException e) {
+                                    date = new Date();
                                 }
-                                String review_to_display = storeName + ":" + " Rating: " + overall + " stars" +  cut_off_review;
-                                Review reviewObj = new Review(overall,review_body,date,price,storeName,review_to_display);
+
+                                Review reviewObj = new Review(title, user, overall, freshness, taste, price, text, storeName, date);
+
                                 list_of_reviews.add(reviewObj);
                             }
                         }
-                    } catch (Exception e) {
-
-                    }
                 }
                 customAdapter.notifyDataSetChanged();
             }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
         });
         ListView listView = view.findViewById(R.id.list_of_items);
-
         listView.setAdapter(customAdapter);
 
-    }
-    class Review implements Comparable<Review>{
-        private int overall;
-        private String body;
-        private Date date;
-        private int price;
-        private String storeName;
-        private String smallBody;
-        private String displayBody;
-        public Review(int overall,String body,Date date,int price,String storeName,String displayBody){
-            this.body = body;
-            this.overall = overall;
-            this.date = date;
-            this.price = price;
-            this.storeName = storeName;
-            if(body.length() > 15){
-                smallBody = body.substring(0,15) + "...";
-            }else{
-                smallBody = body;
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
+                Review data = (Review) adapterView.getItemAtPosition(i);
+
+                Intent storePage = new Intent(HomeFragment.this.getContext(), ReviewPageActivity.class);
+                data.packageIntent(storePage);
+                HomeFragment.this.getActivity().startActivity(storePage);
             }
-            this.displayBody = displayBody;
-        }
-        public String getDisplayBody(){
-            return this.displayBody;
-        }
-        public int getOverall(){
-            return overall;
-        }
+        });
 
-        public String getName() {
-            return storeName;
-        }
-
-        public String getReviewBody() {
-            return body;
-        }
-
-
-        @Override
-        public int compareTo(Review other){
-            return this.date.compareTo(other.date);
-        }
     }
+
     class CustomAdapter extends BaseAdapter{
 
         @Override
@@ -174,11 +144,11 @@ public class HomeFragment extends Fragment {
 
             TextView reviewTextView = view.findViewById(R.id.singleReview);
             AppCompatRatingBar ratingBar = view.findViewById(R.id.ratingBar);
-            ratingBar.setRating(thisReview.getOverall());
+            ratingBar.setRating(thisReview.getOverallRating());
             //ratingBar.setEnabled(false);
-            reviewBoldTitleTextView.setText(thisReview.getName());
+            reviewBoldTitleTextView.setText(thisReview.getStoreName());
             //reviewTextView.setText(thisReview.getDisplayBody());
-            reviewTextView.setText(thisReview.getReviewBody());
+            reviewTextView.setText(thisReview.getSmallBody());
             return view;
         }
     }

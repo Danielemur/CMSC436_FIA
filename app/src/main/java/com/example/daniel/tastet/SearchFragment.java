@@ -110,7 +110,6 @@ public class SearchFragment extends Fragment {
                         List<Map<String, Object>> reviews = (List<Map<String, Object>>) store.get("Reviews");
 
                         for (Map<String, Object> review : reviews) {
-                            Log.i(TAG, "\n\n\nreview\n\n\n");
                             String title = review.get("Title").toString();
                             String user = review.get("Name").toString();
                             float overall = Float.parseFloat(review.get("Overall").toString());
@@ -131,13 +130,13 @@ public class SearchFragment extends Fragment {
                             Review reviewObj = new Review(title, user, overall, freshness, taste, price, text, storeName, date);
 
                             list_of_reviews.add(reviewObj);
-                            customAdapter.notifyDataSetChanged();
                         }
                     }
                     //create a store
                     Store storeObj = new Store(storeName, storeAddress, storeType, list_of_reviews, hashKey);
 
                     list_of_stores.add(storeObj);
+                    customAdapter.notifyDataSetChanged();
                 }
                 Log.i(TAG, "finished adding stores :" + list_of_stores.size());
 
@@ -149,7 +148,7 @@ public class SearchFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                Store data =  ((Store) adapterView.getItemAtPosition(i));
+                Store data =  (Store) adapterView.getItemAtPosition(i);
 
                 Intent storePage = new Intent(SearchFragment.this.getContext(), StorePageActivity.class);
                 data.packageIntent(storePage);
