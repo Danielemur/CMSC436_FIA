@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.home_fragment,null);
     }
     @Override
-    public void onViewCreated(View view,Bundle savedInstanceState){
+    public void onViewCreated(View view,Bundle savedInstanceState) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference polls = database.getReference();
         polls.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -129,6 +129,16 @@ public class HomeFragment extends Fragment {
         public int getOverall(){
             return overall;
         }
+
+        public String getName() {
+            return storeName;
+        }
+
+        public String getReviewBody() {
+            return body;
+        }
+
+
         @Override
         public int compareTo(Review other){
             return this.date.compareTo(other.date);
@@ -155,11 +165,17 @@ public class HomeFragment extends Fragment {
         public View getView(int i, View view, ViewGroup viewGroup) {
             Collections.sort(list_of_reviews);
             view = getLayoutInflater().inflate(R.layout.single_review,null);
+
+            Review thisReview = list_of_reviews.get(i);
+            TextView reviewBoldTitleTextView = view.findViewById(R.id.singleReviewBoldTitle);
+
             TextView reviewTextView = view.findViewById(R.id.singleReview);
             AppCompatRatingBar ratingBar = view.findViewById(R.id.ratingBar);
-            ratingBar.setRating(list_of_reviews.get(i).getOverall());
+            ratingBar.setRating(thisReview.getOverall());
             //ratingBar.setEnabled(false);
-            reviewTextView.setText(list_of_reviews.get(i).getDisplayBody());
+            reviewBoldTitleTextView.setText(thisReview.getName());
+            //reviewTextView.setText(thisReview.getDisplayBody());
+            reviewTextView.setText(thisReview.getReviewBody());
             return view;
         }
     }
