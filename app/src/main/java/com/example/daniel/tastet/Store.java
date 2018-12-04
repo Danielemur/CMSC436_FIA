@@ -1,6 +1,7 @@
 package com.example.daniel.tastet;
 
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,10 @@ public static final String STORE_OBJ_REVIEWS = "STORE_OBJ_REVIEWS";
     private String hashKey;
 
     // Derived values
-    private float overallRating;
-    private float freshnessRating;
-    private float tasteRating;
-    private float priceRating;
+    private float overallRating = 0f;
+    private float freshnessRating = 0f;
+    private float tasteRating = 0f;
+    private float priceRating = 0f;
 
     public Store(String locationName, String locationAddress, String locationType,
                  ArrayList<Review> reviews, String hashKey) {
@@ -47,22 +48,24 @@ public static final String STORE_OBJ_REVIEWS = "STORE_OBJ_REVIEWS";
     }
 
     private void computeAvgRatings() {
-        overallRating = 0;
-        freshnessRating = 0;
-        tasteRating = 0;
-        priceRating = 0;
+        if (reviews.size() > 0) {
+            overallRating = 0;
+            freshnessRating = 0;
+            tasteRating = 0;
+            priceRating = 0;
 
-        for (Review r : reviews) {
-            overallRating += r.getOverallRating();
-            freshnessRating += r.getFreshnessRating();
-            tasteRating += r.getTasteRating();
-            priceRating += r.getPriceRating();
+            for (Review r : reviews) {
+                overallRating += r.getOverallRating();
+                freshnessRating += r.getFreshnessRating();
+                tasteRating += r.getTasteRating();
+                priceRating += r.getPriceRating();
+            }
+
+            overallRating /= reviews.size();
+            freshnessRating /= reviews.size();
+            tasteRating /= reviews.size();
+            priceRating /= reviews.size();
         }
-
-        overallRating /= reviews.size();
-        freshnessRating /= reviews.size();
-        tasteRating /= reviews.size();
-        priceRating /= reviews.size();
     }
 
     public void packageIntent(Intent i) {

@@ -127,7 +127,7 @@ public class SearchFragment extends Fragment {
                                 float price = Float.parseFloat(review.get("Price").toString());
                                 String text = review.get("Body").toString();
 
-                                String pattern = "EEE MMM DD HH:MM:SS ZZZ yyyy";
+                                String pattern = "EEE MMM dd HH:mm:ss zzz yyyy";
                                 SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.US);
                                 Date date = dateFormat.parse((String) review.get("Date"));
 
