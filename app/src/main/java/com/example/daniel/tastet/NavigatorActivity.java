@@ -1,7 +1,16 @@
 package com.example.daniel.tastet;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.support.annotation.NonNull;
@@ -10,11 +19,19 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.*;
+
+import android.location.*;
 import android.view.MenuItem;
+import android.widget.RemoteViews;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,13 +40,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
-public class NavigatorActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class NavigatorActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = "TasteT";
     private static final int ADD_STORE_REQUEST = 0;
-    private static final int ADD_REVIEW_REQUEST = 1;
 
 
     private Fragment currentFragment = null;
@@ -37,10 +56,14 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
     private Fragment searchFragment = null;
     private Fragment mapsFragment = null;
     private Fragment settingsFragment = null;
+    SharedPreferences sharedPref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference polls = database.getReference();
         setContentView(R.layout.activity_navigator);
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -61,10 +84,147 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
         toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp));
         setSupportActionBar(toolbar);
 
-        if (ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        polls.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (sharedPref.getBoolean("notification_key", true) == false){
+                    return;
+                }
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    Log.d("UPDATE", "NAAAAAAA");
+                    Log.d("New_Update", child.toString());
+                    try {
+                        String notifString;
+                        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                        Location location;
+                        Address address;
+                        Address strAddress;
+                        String storeAddress;
+                        LatLng storeLatLng = null;
+                        LatLng ltlng = new LatLng(38.9897, -76.9378);
+                        String streetAdd = sharedPref.getString("default_location_key", "");
+                        String storeName;
+                        int numReview = -1;
+                        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.US);
+
+                        Map<String, Object> hash = (Map<String, Object>) child.getValue();
+                        if (hash.containsKey("Name")) {
+                            storeName = (String) hash.get("Name");
+                        } else {
+                            break;
+                        }
+                        if (hash.containsKey("Address")) {
+                            storeAddress = (String) hash.get("Address");
+                            try {
+                                List<Address> results = geocoder.getFromLocationName(storeAddress, 1);
+                                if (results.size() != 0) {
+                                    strAddress = results.get(0);
+                                    storeLatLng = new LatLng(strAddress.getLatitude(), strAddress.getLongitude());
+                                }
+                            } catch (Exception e) {
+                                break;
+                            }
+                        } else {
+                            break;
+                        }
+                        Log.d("CHECK", "CHECKING");
+
+                        if (streetAdd.equals("") || streetAdd.equals("Current Location")) {
+                            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                                    ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                // No permission for current location
+                                streetAdd = "College Park, Maryland";
+                                try {
+                                    List<Address> results = geocoder.getFromLocationName(streetAdd, 1);
+                                    if (results.size() != 0) {
+                                        address = results.get(0);
+                                        ltlng = new LatLng(address.getLatitude(), address.getLongitude());
+                                    }
+                                } catch (Exception e) {
+                                    //Invalid Address - Default to CP, MD
+                                    ltlng = new LatLng(38.9897, -76.9378);
+                                }
+                            } else {
+                                location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                                if (location == null) {
+                                    location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                }
+                                if (location != null) {
+                                    ltlng = new LatLng(location.getLatitude(), location.getLongitude());
+                                } else {
+                                    ltlng = new LatLng(38.9897, -76.9378);
+                                }
+                            }
+                        } else {
+                            try {
+                                List<Address> results = geocoder.getFromLocationName(streetAdd, 1);
+                                if (results.size() != 0) {
+                                    address = results.get(0);
+                                    ltlng = new LatLng(address.getLatitude(), address.getLongitude());
+                                }
+                            } catch (Exception e) {
+                                //Invalid Address - Default to CP, MD
+                                ltlng = new LatLng(38.9897, -76.9378);
+                            }
+                        }
+                        Location storeLoc = new Location("");
+                        storeLoc.setLatitude(storeLatLng.latitude);
+                        storeLoc.setLongitude(storeLatLng.longitude);
+                        Location currLoc = new Location("");
+                        currLoc.setLatitude(ltlng.latitude);
+                        currLoc.setLongitude(ltlng.longitude);
+
+                        float dist = (float) (storeLoc.distanceTo(currLoc) / 1609.344);
+
+                        if (hash.containsKey("Reviews")) {
+                            numReview = ((HashMap<Object, Object>[]) hash.get("Reviews")).length;
+                        }
+                        // If dist < 10 miles, put notification
+                        if (dist <= 10) {
+                            if (numReview == 0 || numReview == -1) {
+                                notifString = "New store " + storeName + " added!";
+                                Log.d("STORE", storeName);
+                            } else {
+                                notifString = "New review for " + storeName + " added!";
+                                Log.d("REVIEW", storeName);
+                            }
+
+                            NotificationManager mNotificationManager =
+                                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                            String mChannelID = "first";
+                            NotificationChannel mChannel =
+                                    new NotificationChannel(mChannelID, "channel", NotificationManager.IMPORTANCE_LOW);
+                            mNotificationManager.createNotificationChannel(mChannel);
+                            RemoteViews contentView = new RemoteViews(
+                                    getPackageName(),
+                                    R.layout.new_notification);
+                            contentView.setTextViewText(R.id.notification_text, notifString);
+
+                            Notification.Builder notificationBuilder = new Notification.Builder(
+                                    getApplicationContext(), mChannelID)
+                                    .setTicker("New Notification")
+                                    .setSmallIcon(android.R.drawable.alert_dark_frame)
+                                    .setAutoCancel(true)
+                                    .setCustomContentView(contentView);
+                            mNotificationManager.notify(1,
+                                    notificationBuilder.build());
+                        }
+                    } catch (Exception e) {
+                        Log.d("ERROR", e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
 
     }
 
@@ -72,21 +232,16 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.appbar_menu,menu);
+        inflater.inflate(R.menu.appbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.add_location:
                 Intent addStore = new Intent(this, AddStoreActivity.class);
                 this.startActivityForResult(addStore, ADD_STORE_REQUEST);
-                //open new location activity
-                break;
-            case R.id.add_review:
-                Intent addReview = new Intent(this, AddReviewActivity.class);
-                this.startActivityForResult(addReview, ADD_REVIEW_REQUEST);
                 //open new location activity
                 break;
         }
@@ -98,7 +253,7 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
         Log.i(TAG, "Entered onActivityResult()");
         if (resultCode == RESULT_OK) {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            switch(requestCode) {
+            switch (requestCode) {
                 case ADD_STORE_REQUEST: {
                     String locationName = data.getStringExtra(AddStoreActivity.LOCATION_NAME);
                     String locationAddress = data.getStringExtra(AddStoreActivity.LOCATION_ADDRESS);
@@ -116,17 +271,13 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                     myRef.setValue(result);
 
                 }
-                case ADD_REVIEW_REQUEST: {
-                    DatabaseReference myRef2 = database.getReference("Location");
-                    myRef2.setValue("Hello, World! Add Review");
-                }
             }
 
         }
     }
 
-    private boolean loadFragment(){
-        if(currentFragment != null){
+    private boolean loadFragment() {
+        if (currentFragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, currentFragment)
@@ -135,12 +286,13 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
         }
         return false;
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
 
         //switch to the selected menu option
-        switch(menuItem.getItemId()){
+        switch (menuItem.getItemId()) {
             case R.id.navigation_home:
                 currentFragment = homeFragment;
                 break;
@@ -163,30 +315,28 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
 
         public boolean onPreferenceChange(Preference preference, Object value) {
 
-                /*Changing notifications setting*/
-                if (preference.getKey().equals("notification_key")) {
+            /*Changing notifications setting*/
+            if (preference.getKey().equals("notification_key")) {
 
-                }
-                /*Changing default zoom setting*/
-                else if (preference.getKey().equals("default_zoom_key")) {
+            }
+            /*Changing default zoom setting*/
+            else if (preference.getKey().equals("default_zoom_key")) {
 
-                }
-                /*Changing default location*/
-                else if (preference.getKey().equals("default_location_key")) {
+            }
+            /*Changing default location*/
+            else if (preference.getKey().equals("default_location_key")) {
 
-                }
-                /*Error, something went wrong*/
-                else {
-                    return false;
-                }
+            }
+            /*Error, something went wrong*/
+            else {
+                return false;
+            }
 
-                return true;
+            return true;
         }
 
 
     };
-
-
 
 
 }

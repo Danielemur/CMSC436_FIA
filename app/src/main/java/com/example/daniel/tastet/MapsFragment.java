@@ -197,16 +197,26 @@ public class MapsFragment extends Fragment {
             }
         });
     }
+    @Override
+    public void onStop(){
+        mapView.onStop();
+        super.onStop();
+    }
+    @Override
+    public void onPause() {
+        mapView.onPause();
+        super.onPause();
 
+    }
     @Override
     public void onResume() {
-        mapView.onResume();
         super.onResume();
+        mapView.onResume();
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mapView.onDestroy();
+        super.onDestroy();
     }
 }
