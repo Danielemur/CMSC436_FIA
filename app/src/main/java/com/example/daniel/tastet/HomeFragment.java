@@ -4,15 +4,13 @@ import java.text.ParseException;
 import java.util.Collections;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
         import android.support.annotation.NonNull;
         import android.support.annotation.Nullable;
         import android.support.v4.app.Fragment;
 
 import android.support.v7.widget.AppCompatRatingBar;
-import android.util.Log;
-        import android.view.LayoutInflater;
+import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
 
@@ -101,7 +99,7 @@ public class HomeFragment extends Fragment {
                 customAdapter.notifyDataSetChanged();
             }
         });
-        ListView listView = view.findViewById(R.id.list_of_items);
+        ListView listView = view.findViewById(R.id.home_list_of_items);
         listView.setAdapter(customAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
