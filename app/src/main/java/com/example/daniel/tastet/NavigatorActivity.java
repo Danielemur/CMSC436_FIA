@@ -54,7 +54,17 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
 
     public static final String TAG = "TasteT";
     private static final int ADD_STORE_REQUEST = 0;
-
+    public static final String DEFAULT_LOCATION_KEY = "default_location_key";
+    public static final String CURRENT_LOCATION_KEY = "Current Location";
+    public static final String NOTIFICATION_KEY = "notification_key";
+    public static final String NAME_KEY = "Name";
+    public static final String ADDRESS_KEY = "Address";
+    public static final String REVIEWS_KEY = "Reviews";
+    public static final String STORE_KEY = "Store Type";
+    public static final String DATE_KEY = "Date";
+    public static final String COLLEGE_PARK_ADDRESS = "College Park, Maryland";
+    public static final LatLng LAT_LNG_CP =  new LatLng(38.9897, -76.9378);
+    public static final String DEFAULT_ZOOM_KEY = "default_zoom_key";
 
     private Fragment currentFragment = null;
     private Fragment homeFragment = null;
@@ -96,7 +106,7 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
         polls.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (sharedPref.getBoolean("notification_key", true) == false) {
+                if (sharedPref.getBoolean(NOTIFICATION_KEY, true) == false) {
                     return;
                 }
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
@@ -110,19 +120,19 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                         Address strAddress;
                         String storeAddress;
                         LatLng storeLatLng = null;
-                        LatLng ltlng = new LatLng(38.9897, -76.9378);
-                        String streetAdd = sharedPref.getString("default_location_key", "");
+                        LatLng ltlng = LAT_LNG_CP;
+                        String streetAdd = sharedPref.getString(DEFAULT_LOCATION_KEY, "");
                         String storeName;
                         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.US);
 
                         Map<String, Object> hash = (Map<String, Object>) child.getValue();
-                        if (hash.containsKey("Name")) {
-                            storeName = (String) hash.get("Name");
+                        if (hash.containsKey(NAME_KEY)) {
+                            storeName = (String) hash.get(NAME_KEY);
                         } else {
                             continue;
                         }
-                        if (hash.containsKey("Address")) {
-                            storeAddress = (String) hash.get("Address");
+                        if (hash.containsKey(ADDRESS_KEY)) {
+                            storeAddress = (String) hash.get(ADDRESS_KEY);
                             try {
                                 List<Address> results = geocoder.getFromLocationName(storeAddress, 1);
                                 if (results.size() != 0) {
@@ -137,14 +147,19 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                         }
                         Log.d("CHECeeeeK", "CHECKING");
 
-                        if (hash.containsKey("Reviews")) {
+                        if (hash.containsKey(REVIEWS_KEY)) {
                             Log.d("YES","NONOOO");
-                            List<Map<String, Object>> reviews = (List<Map<String, Object>>) hash.get("Reviews");
+                            List<Map<String, Object>> reviews = (List<Map<String, Object>>) hash.get(REVIEWS_KEY);
                             boolean foundTime = false;
                             for (Map<String, Object> review : reviews) {
                                 String pattern = "EEE MMM DD HH:MM:SS ZZZ yyyy";
                                 SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.US);
-                                Date date = dateFormat.parse((String) review.get("Date"));
+                                Date date = dateFormat.parse((String) review.get(DATE_KEY));
+                                Log.d("Get Date", (String) review.get(DATE_KEY));
+                                Log.d("Timestamp", date.toString());
+                                Log.d("CurrentTime", new Date().toString());
+                                Log.d("DIFF", Long.toString(new Date().getTime() - date.getTime()));
+                                // Recent Review within past 20 seconds
                                 if (new Date().getTime() - date.getTime() <= 20000) {
                                     foundTime = true;
                                     break;
@@ -152,6 +167,7 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                             }
                             // No Recent Reviews
                             if (!foundTime){
+                                Log.d("NOTWORK","NOWORK");
                                 continue;
                             }
                         } else {
@@ -159,11 +175,11 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                         }
                         Log.d("CHECK", "CHECKING");
 
-                        if (streetAdd.equals("") || streetAdd.equals("Current Location")) {
+                        if (streetAdd.equals("") || streetAdd.equals(CURRENT_LOCATION_KEY)) {
                             if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                                     ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                 // No permission for current location
-                                streetAdd = "College Park, Maryland";
+                                streetAdd = COLLEGE_PARK_ADDRESS;
                                 try {
                                     List<Address> results = geocoder.getFromLocationName(streetAdd, 1);
                                     if (results.size() != 0) {
@@ -172,7 +188,7 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                                     }
                                 } catch (Exception e) {
                                     //Invalid Address - Default to CP, MD
-                                    ltlng = new LatLng(38.9897, -76.9378);
+                                    ltlng = LAT_LNG_CP;;
                                 }
                             } else {
                                 location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -182,7 +198,7 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                                 if (location != null) {
                                     ltlng = new LatLng(location.getLatitude(), location.getLongitude());
                                 } else {
-                                    ltlng = new LatLng(38.9897, -76.9378);
+                                    ltlng = LAT_LNG_CP;
                                 }
                             }
                         } else {
@@ -194,7 +210,7 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                                 }
                             } catch (Exception e) {
                                 //Invalid Address - Default to CP, MD
-                                ltlng = new LatLng(38.9897, -76.9378);
+                                ltlng = LAT_LNG_CP;
                             }
                         }
                         Location storeLoc = new Location("");
@@ -272,13 +288,12 @@ public class NavigatorActivity extends AppCompatActivity implements BottomNaviga
                     String locationType = data.getStringExtra(AddStoreActivity.LOCATION_TYPE);
                     Log.i(TAG, "Name: " + locationName + "\nAddress: " + locationAddress + "\nType: " + locationType);
 
-
                     String idOne = UUID.randomUUID().toString();
                     DatabaseReference myRef = database.getReference(idOne);
                     Map<String, Object> result = new HashMap<>();
-                    result.put("Name", locationName);
-                    result.put("Address", locationAddress);
-                    result.put("Store Type", locationType);
+                    result.put(NAME_KEY, locationName);
+                    result.put(ADDRESS_KEY, locationAddress);
+                    result.put(STORE_KEY, locationType);
                     myRef.setValue(result);
                     break;
                 }

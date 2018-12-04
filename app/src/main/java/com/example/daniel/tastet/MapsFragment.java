@@ -66,8 +66,8 @@ public class MapsFragment extends Fragment {
         mapView.onResume();
 
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        zoom = Float.parseFloat(sharedPref.getString("default_zoom_key", "15"));
-        streetAdd = sharedPref.getString("default_location_key", "");
+        zoom = Float.parseFloat(sharedPref.getString(NavigatorActivity.DEFAULT_ZOOM_KEY, "15"));
+        streetAdd = sharedPref.getString(NavigatorActivity.DEFAULT_LOCATION_KEY, "");
 
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -76,17 +76,17 @@ public class MapsFragment extends Fragment {
                 LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 Location location;
                 // Default Address if invalid submissions
-                LatLng ltlng = new LatLng(38.9897, -76.9378);
+                LatLng ltlng = NavigatorActivity.LAT_LNG_CP;
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference polls = database.getReference();
 
-                if (streetAdd.equals("") || streetAdd.equals("Current Location")) {
+                if (streetAdd.equals("") || streetAdd.equals(NavigatorActivity.CURRENT_LOCATION_KEY)) {
                     if (ActivityCompat.checkSelfPermission(getContext(),
                             android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                             ActivityCompat.checkSelfPermission(getContext(),
                                     android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         // No permission for current location
-                        streetAdd = "College Park, Maryland";
+                        streetAdd = NavigatorActivity.COLLEGE_PARK_ADDRESS;
                         try {
                             List<Address> results = geocoder.getFromLocationName(streetAdd, 1);
                             if (results.size() != 0) {
@@ -95,7 +95,7 @@ public class MapsFragment extends Fragment {
                             }
                         } catch (Exception e) {
                             //Invalid Address - Default to CP, MD
-                            ltlng = new LatLng(38.9897, -76.9378);
+                            ltlng = NavigatorActivity.LAT_LNG_CP;
                         }
                     } else {
                         location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -105,7 +105,7 @@ public class MapsFragment extends Fragment {
                         if (location != null) {
                             ltlng = new LatLng(location.getLatitude(), location.getLongitude());
                         } else{
-                            ltlng = new LatLng(38.9897, -76.9378);
+                            ltlng = NavigatorActivity.LAT_LNG_CP;
                         }
                     }
                 } else {
@@ -117,7 +117,7 @@ public class MapsFragment extends Fragment {
                         }
                     } catch (Exception e) {
                         //Invalid Address - Default to CP, MD
-                        ltlng = new LatLng(38.9897, -76.9378);
+                        ltlng = NavigatorActivity.LAT_LNG_CP;
                     }
                 }
 
@@ -131,14 +131,14 @@ public class MapsFragment extends Fragment {
                             try {
                                 Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.US);
                                 Map<String, Object> hash = (Map<String, Object>) child.getValue();
-                                if (hash.containsKey("Address")) {
-                                    List<Address> results = geocoder.getFromLocationName((String) hash.get("Address"), 1);
+                                if (hash.containsKey(NavigatorActivity.ADDRESS_KEY)) {
+                                    List<Address> results = geocoder.getFromLocationName((String) hash.get(NavigatorActivity.ADDRESS_KEY), 1);
                                     if (results.size() != 0) {
                                         address = results.get(0);
                                         LatLng lt_lng = new LatLng(address.getLatitude(), address.getLongitude());
                                         googleMap.addMarker(new MarkerOptions()
                                                 .position(lt_lng)
-                                                .title((String) hash.get("Name")));
+                                                .title((String) hash.get(NavigatorActivity.NAME_KEY)));
                                     }
                                 }
                             } catch (Exception e) {
